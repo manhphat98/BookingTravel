@@ -50,24 +50,24 @@ class CategoriesController extends Controller
     ]);
 
     // Xử lý upload file hình ảnh
-    if($request->hasFile('image')){
-        $image = $request->file('image');
-        $imageName = time().'.'.$image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
-        $data['image'] = $imageName;
-    }
+    $get_image = $request->image;
+    $path = 'upload/categories';
+    $get_name_image = $get_image->getClientOriginalName();
+    $name_image = current(explode('.',$get_name_image));
+    $new_image = $name_image.rand(0,999).'.'.$get_image->getClientOriginalExtension();
+    $get_image->move($path,$new_image);
 
     // Tạo đối tượng Category và lưu dữ liệu
     $category = new Category();
     $category->title = $data['title'];
     $category->slug = Str::slug($data['title'], '-');
     $category->description = $data['description'];
-    $category->image = $data['image'];
+    $category->image = $new_image;
     $category->status = $data['status'];
     $category->save();
 
     // Chuyển hướng lại với thông báo thành công
-    return redirect()->back()->with('success', 'Danh mục đã được tạo thành công!');
+    return redirect()->route('categories.create')->with('success', 'Danh mục đã được tạo thành công!');
 }
 
 

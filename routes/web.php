@@ -15,3 +15,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Categories
 Route::resource('categories', CategoriesController::class);
+
+Route::get('/test-db', function () {
+    try {
+        \DB::connection()->getPdo();
+        return 'Kết nối cơ sở dữ liệu thành công!';
+    } catch (\Exception $e) {
+        return 'Không thể kết nối cơ sở dữ liệu: ' . $e->getMessage();
+    }
+});
