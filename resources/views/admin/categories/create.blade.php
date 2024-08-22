@@ -1,73 +1,68 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .error-message {
-        color: red;
-        font-style: italic;
-        margin-left: 10px; /* Khoảng cách giữa Status và thông báo lỗi */
-        display: inline-block;
-    }
-</style>
-
-<div class="card card-primary">
+<div class="container card card-primary">
     <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
-        <h4 class="card-title">Tạo Danh mục</h4>
+        <h4 class="card-title">Thêm Danh mục mới</h4>
     </div>
 
+    <!-- Hiển thị thông báo thành công -->
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <!-- /.card-header -->
-    <!-- form start -->
-    <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+    <!-- Hiển thị thông báo lỗi -->
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card-body">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Tên Danh mục
-                    @error('title')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
-                </label>
-                <input type="text" class="form-control" name="title" id="exampleInputEmail1" placeholder="Nhập tên Danh mục ..." value="{{ old('title') }}">
-            </div>
 
-            <div class="form-group">
-                <label for="exampleInputPassword1">Mô tả</label>
-                <input type="text" class="form-control" name="description" id="exampleInputPassword1" placeholder="Mô tả chút về loại Danh mục ..." value="{{ old('description') }}">
-            </div>
-
-            <div class="form-group">
-                <label for="exampleInputFile">Hình ảnh
-                    @error('image')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
-                </label>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="image" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-check">
-                <input type="checkbox" name="status" value="1" class="form-check-input" id="exampleCheck1" {{ old('status') ? 'checked' : '' }}>
-                <label class="form-check-label" for="exampleCheck1">Status
-                    @error('status')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
-                </label>
-            </div>
+        <div class="form-group">
+            <label for="title">Tên Danh Mục:</label>
+            <input type="text" class="form-control" name="title" value="{{ old('title') }}" required>
+            @error('title')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
-        <!-- /.card-body -->
 
-        <div class="card-footer" style="display: flex; justify-content: center; align-items: center;">
-            <button type="submit" class="btn btn-primary">Tạo</button>
+        <div class="form-group">
+            <label for="description">Mô Tả:</label>
+            <textarea class="form-control" name="description" id="description" rows="4" required>{{ old('description') }}</textarea>
+            @error('description')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
+
+        <div class="form-group">
+            <label for="image">Hình Ảnh:</label>
+            <input type="file" class="form-control-file" name="image" required>
+            @error('image')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="status">Trạng Thái:</label>
+            <select class="form-control" name="status" required>
+                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Hiển Thị</option>
+                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Ẩn</option>
+            </select>
+            @error('status')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-primary">Thêm Danh Mục</button>
     </form>
 </div>
 @endsection

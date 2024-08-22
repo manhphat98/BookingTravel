@@ -16,8 +16,7 @@
                    <div class="clearfix box-wap-imgpr">
                       {{-- <a href="{{route('tour', [$tour->slug])}}"> Dùng khi đã có Database--}}
                     <a href="{{route('detail-tour', ['quy-nhon-phu-yen'])}}">
-                        <img src="{{asset('fontend/imgs/logo-ghenh-da-dia.jpg')}}" class="img-default" alt="tour" style="margin-bottom: 6px;">
-                         <img src="{{asset('fontend/imgs/merry-christmas-1.png')}}" class="img-event-giang-sinh">
+                        <img src="{{asset('fontend/imgs/quynhon-phuyen/quynhon-phuyen.png')}}" class="img-default" alt="tour" style="margin-bottom: 6px;">
                       </a>
                    </div>
                    <div class="clear"></div>

@@ -49,6 +49,7 @@ class CategoriesController extends Controller
         'status.required' => 'Vui lòng xác nhận',
     ]);
 
+
     // Xử lý upload file hình ảnh
     $get_image = $request->image;
     $path = 'upload/categories';

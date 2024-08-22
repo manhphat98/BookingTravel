@@ -62,6 +62,10 @@
        <link rel="stylesheet" href="{{asset('fontend/css/dark.css')}}" type="text/css" media="screen" />
        <link rel="stylesheet" href="{{asset('fontend/css/bar.css')}}" type="text/css" media="screen" />
        <link rel="stylesheet" href="{{asset('fontend/css/nivo-slider.css')}}" type="text/css" media="screen" />
+
+       {{-- DataTables --}}
+       <link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.dataTables.css" />
+       <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
        <!-- Js menu mobile-->
        <script>
           $(document).ready(function(e) {
@@ -340,12 +344,12 @@
                    <div class="col-md-12 col-xs-12 top-5">
                       <div class="cl-logo fl">
                          <h1 class="logo">
-                            <a href="{{route('home')}}"><img alt="du lịch" src="{{asset('fontend/imgs/logo_BookingTravel.png')}}" alt="logo"/></a>
+                            <a href="{{route('index')}}"><img alt="du lịch" src="{{asset('fontend/imgs/logo_BookingTravel.png')}}" alt="logo"/></a>
                          </h1>
                       </div>
                       <div class="cl-bnt fl">
                          <div class="banner-top">
-                            <a href="{{route('home')}}"><img alt="du lịch" src="{{asset('fontend/imgs/banner-top.gif')}}" alt="banner top"></a>
+                            <a href="{{route('index')}}"><img alt="du lịch" src="{{asset('fontend/imgs/banner-top.gif')}}" alt="banner top"></a>
                          </div>
                       </div>
                       <div class="cl-right-lang fr">
@@ -375,9 +379,9 @@
                    <div class="col-md-12 col-xs-12 box-mainmenu">
                       <nav class="menunav">
                          <ul class="ulwap-mainmenu">
-                            <li><a href="{{route('home')}}" class="mn-home"><i class="fa fa-home"></i></a></li>
+                            <li><a href="{{route('index')}}" class="mn-home"><i class="fa fa-home"></i></a></li>
                             <li class="megamenusub" style="border-color:white">
-                               <a href="{{route('tour', ['du-lich-noi-dia'])}}" class=" 'active' ">
+                               <a href="{{route('tour', ['du-lich-trong-nuoc'])}}" class=" 'active' ">
                                Du lịch trong nước
                                </a>
                                <ul>
@@ -573,12 +577,12 @@
                                </a>
                                <ul>
                                   <li class="" style="border-color:white">
-                                     <a href="/vi/danh-sach-lich-trinh-tour/1-du-lich-trong-nuoc.html" class="">
+                                     <a href="{{route('tour', ['du-lich-trong-nuoc'])}}" class="">
                                      <i class="fa fa-map-marker"></i>  Tour trong nước
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="/vi/danh-sach-lich-trinh-tour/84-du-lich-nuoc-ngoai.html" class="">
+                                     <a href="{{route('tour', ['du-lich-nuoc-ngoai'])}}" class="">
                                      <i class="fa fa-map-marker"></i>  Tour nước ngoài
                                      </a>
                                   </li>
@@ -840,7 +844,7 @@
                 <div class="col-md-3 col-xs-6 cl-mb-half-0">
                    <div class="bximg-request-dd">
                       <a href="https://vietnamtravel.net.vn/vi/san-pham/137-du-lich-thai-lan.html">
-                         <img src="{{asset('fontend/imgs/thai-lan.jpg')}}" alt="Du lịch Thái Lan">
+                         <img src="{{asset('fontend/imgs/thai-lan.png')}}" alt="Du lịch Thái Lan">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Thái Lan</div>
                       </a>
                    </div>
@@ -866,7 +870,7 @@
                 <div class="col-md-6 col-xs-12">
                    <div class="bximg-request-dd">
                       <a href="https://vietnamtravel.net.vn/vi/san-pham/156-du-lich-singapore-malaysia.html">
-                         <img src="{{asset('fontend/imgs/du-lich-sing%20620x283.jpg')}}" alt="Du lịch Singapore Malaysia">
+                         <img src="{{asset('fontend/imgs/singapo-malaysia.jpg')}}" alt="Du lịch Singapore Malaysia">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Singapore Malaysia</div>
                       </a>
                    </div>
@@ -874,7 +878,7 @@
                 <div class="col-md-3 col-xs-6 cl-mb-half-4">
                    <div class="bximg-request-dd">
                       <a href="https://vietnamtravel.net.vn/vi/san-pham/156-du-lich-singapore-malaysia.html">
-                         <img src="{{asset('fontend/imgs/Bali-%20Indo.jpg')}}" alt="Du lịch Bali Indonesia">
+                         <img src="{{asset('fontend/imgs/Bali- Indo.jpg')}}" alt="Du lịch Bali Indonesia">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Bali Indonesia</div>
                       </a>
                    </div>
