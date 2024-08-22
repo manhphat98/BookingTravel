@@ -167,7 +167,7 @@
           <div class="menu_accordion">
              <ul class="ul_ma_1">
                 <li>
-                   <a href="https://vietnamtravel.net.vn/vi/san-pham/1-du-lich-trong-nuoc.html">Du lịch trong nước</a>
+                   <a href="{{route('tour', ['du-lich-trong-nuoc'])}}">Du lịch trong nước</a>
                    <i class="arrown_menu_accordion" val="sub_ac_530"></i>
                    <i class="fa fa-angle-down arrown_menu_accordion" aria-hidden="true" val="sub_ac_530"></i>
                    <ul class="ul_ma_2" id="sub_ac_530" style="display:none;">
@@ -213,79 +213,79 @@
                    </ul>
                 </li>
                 <li>
-                   <a href="https://vietnamtravel.net.vn/vi/san-pham/84-du-lich-nuoc-ngoai.html">Du lịch nước ngoài</a>
+                   <a href="{{ route('tour', ['du-lich-nuoc-ngoai']) }}">Du lịch nước ngoài</a>
                    <i class="arrown_menu_accordion" val="sub_ac_532"></i>
                    <i class="fa fa-angle-down arrown_menu_accordion" aria-hidden="true" val="sub_ac_532"></i>
                    <ul class="ul_ma_2" id="sub_ac_532" style="display:none;">
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/137-du-lich-thai-lan.html">Du lịch Thái Lan</a>
+                         <a href="#">Du lịch Thái Lan</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/143-du-lich-campuchia.html">Du lịch Campuchia</a>
+                         <a href="#">Du lịch Campuchia</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/156-du-lich-singapore-malaysia.html">Du lịch Singapore Malaysia</a>
+                         <a href="#">Du lịch Singapore Malaysia</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/160-myanmar.html">Du lịch Myanmar</a>
+                         <a href="#">Du lịch Myanmar</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/144-du-lich-trung-quoc.html">Du lịch Trung Quốc</a>
+                         <a href="#">Du lịch Trung Quốc</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/142-du-lich-hong-kong.html">Du lịch Hồng Kông</a>
+                         <a href="#l">Du lịch Hồng Kông</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/141-du-lich-dai-loan.html">Du lịch Đài Loan</a>
+                         <a href="#">Du lịch Đài Loan</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/154-du-lich-lao.html">Du lịch Lào</a>
+                         <a href="#">Du lịch Lào</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/140-du-lich-nhat-ban.html">Du lịch Nhật Bản</a>
+                         <a href="#">Du lịch Nhật Bản</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/139-du-lich-han-quoc.html">Du lịch Hàn Quốc</a>
+                         <a href="#">Du lịch Hàn Quốc</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/145-du-lich-chau-au.html">Du lịch Châu Âu</a>
+                         <a href="#">Du lịch Châu Âu</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/158-du-lich-uc.html">Du Lịch Úc</a>
+                         <a href="#">Du Lịch Úc</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/161-du-lich-an-do.html">Du lịch Maldives</a>
+                         <a href="#">Du lịch Maldives</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/san-pham/157-du-lich-dubai.html">Du lịch Dubai</a>
+                         <a href="#">Du lịch Dubai</a>
                       </li>
                    </ul>
                 </li>
                 <li>
-                   <a href="http://vietnamtravel.net.vn/vi/san-pham/162-kieu-tour-du-lich.html">Kiểu tour du lịch</a>
+                   <a href="#">Kiểu tour du lịch</a>
                    <i class="arrown_menu_accordion" val="sub_ac_615"></i>
                    <i class="fa fa-angle-down arrown_menu_accordion" aria-hidden="true" val="sub_ac_615"></i>
                    <ul class="ul_ma_2" id="sub_ac_615" style="display:none;">
                       <li>
-                         <a href="/vi/loai-tour/30-4/all.html">Tour Hè 2003</a>
+                         <a href="#">Tour Hè 2024</a>
                       </li>
                       <li>
-                         <a href="http://vietnamtravel.net.vn/vi/san-pham/82-du-lich-le-hoi-2018.html">Tour các lễ hội ở Việt Nam</a>
+                         <a href="#">Tour các lễ hội ở Việt Nam</a>
                       </li>
                       <li>
-                         <a href="http://vietnamtravel.net.vn/vi/san-pham/74-du-lich-xuyen-viet-2018.html">Tour du lịch xuyên Việt</a>
+                         <a href="#">Tour du lịch xuyên Việt</a>
                       </li>
                       <li>
-                         <a href="http://vietnamtravel.net.vn/vi/san-pham/86-du-lich-tuan-trang-mat.html">Du lịch tuần trăng mật</a>
+                         <a href="#">Du lịch tuần trăng mật</a>
                       </li>
                       <li>
-                         <a href="http://vietnamtravel.net.vn/vi/san-pham/88-du-lich-cuoi-tuan-2018.html">Tour du lịch cuối tuần</a>
+                         <a href="#">Tour du lịch cuối tuần</a>
                       </li>
                       <li>
-                         <a href="http://vietnamtravel.net.vn/vi/san-pham/91-du-lich-team-building.html">Du lịch Team Building</a>
+                         <a href="#">Du lịch Team Building</a>
                       </li>
                       <li>
-                         <a href="http://vietnamtravel.net.vn/vi/san-pham/90-du-lich-tam-bien-2018.html">Chùm tour du lịch Biển</a>
+                         <a href="#">Chùm tour du lịch Biển</a>
                       </li>
                    </ul>
                 </li>
@@ -316,10 +316,10 @@
                    </ul>
                 </li>
                 <li>
-                   <a href="http://vietnamtravel.net.vn/vi/tin/77-cam-nang-du-lich.html">Cẩm nang du lịch</a>
+                   <a href="#">Cẩm nang du lịch</a>
                 </li>
                 <li>
-                   <a href="https://vietnamtravel.net.vn/vi/tin/92-dich-vu-hoan-hao.html">Dịch vụ</a>
+                   <a href="#">Dịch vụ</a>
                    <i class="arrown_menu_accordion" val="sub_ac_507"></i>
                    <i class="fa fa-angle-down arrown_menu_accordion" aria-hidden="true" val="sub_ac_507"></i>
                    <ul class="ul_ma_2" id="sub_ac_507" style="display:none;">
@@ -327,7 +327,7 @@
                          <a href="/vi/danh-sach-xe-cho-thue.html">Thuê xe</a>
                       </li>
                       <li>
-                         <a href="https://vietnamtravel.net.vn/vi/tin/92-dich-vu-hoan-hao.html">Dịch Vụ Khách sạn</a>
+                         <a href="#">Dịch Vụ Khách sạn</a>
                       </li>
                    </ul>
                 </li>
@@ -356,10 +356,10 @@
                          <div class="bx-lang-rh">
                             <ul class="swift-lang-r">
                                <li class="fl">
-                                  <a href="/vi/trang-chu.html"><img alt="du lịch" src="https://vietnamtravel.net.vn/assets/desktop/images/vn.png" alt="vi"> <span>Viet Nam</span></a>
+                                  <a href="#"><img alt="VietNam" src="https://vietnamtravel.net.vn/assets/desktop/images/vn.png" alt="vi"> <span>Việt Nam</span></a>
                                </li>
                                <li class="fr">
-                                  <a href="/en/home.html"><img alt="du lịch" src="https://vietnamtravel.net.vn/assets/desktop/images/en.png" alt="en"> <span>English</span></a>
+                                  <a href="#"><img alt="English" src="https://vietnamtravel.net.vn/assets/desktop/images/en.png" alt="en"> <span>English</span></a>
                                </li>
                             </ul>
                             <div class="hot-line-rh">
@@ -458,73 +458,73 @@
                                </a>
                                <ul>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/137-du-lich-thai-lan.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Thái Lan
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/143-du-lich-campuchia.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Campuchia
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/156-du-lich-singapore-malaysia.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Singapore Malaysia
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/160-myanmar.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Myanmar
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/144-du-lich-trung-quoc.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Trung Quốc
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/142-du-lich-hong-kong.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Hồng Kông
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/141-du-lich-dai-loan.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Đài Loan
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/154-du-lich-lao.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Lào
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/140-du-lich-nhat-ban.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Nhật Bản
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/139-du-lich-han-quoc.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Hàn Quốc
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/145-du-lich-chau-au.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Châu Âu
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/158-du-lich-uc.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du Lịch Úc
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/161-du-lich-an-do.html" class="">
+                                     <a href="#" class="">
                                      <i class="fa fa-map-marker"></i>  Du lịch Maldives
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/san-pham/157-du-lich-dubai.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Du lịch Dubai
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Du lịch Dubai
                                      </a>
                                   </li>
                                </ul>
@@ -540,33 +540,33 @@
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="http://vietnamtravel.net.vn/vi/san-pham/82-du-lich-le-hoi-2018.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Tour các lễ hội ở Việt Nam
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Tour các lễ hội ở Việt Nam
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="http://vietnamtravel.net.vn/vi/san-pham/74-du-lich-xuyen-viet-2018.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Tour du lịch xuyên Việt
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Tour du lịch xuyên Việt
+                                     </a>
+                                  </li>
+                                     <a href="#" class="">
+                                        <a href="#" class="">
+                                            <i class="fa fa-map-marker"></i>  Du lịch tuần trăng mật
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="http://vietnamtravel.net.vn/vi/san-pham/86-du-lich-tuan-trang-mat.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Du lịch tuần trăng mật
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Tour du lịch cuối tuần
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="http://vietnamtravel.net.vn/vi/san-pham/88-du-lich-cuoi-tuan-2018.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Tour du lịch cuối tuần
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Du lịch Team Building
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="http://vietnamtravel.net.vn/vi/san-pham/91-du-lich-team-building.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Du lịch Team Building
-                                     </a>
-                                  </li>
-                                  <li class="" style="border-color:white">
-                                     <a href="http://vietnamtravel.net.vn/vi/san-pham/90-du-lich-tam-bien-2018.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Chùm tour du lịch Biển
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Chùm tour du lịch Biển
                                      </a>
                                   </li>
                                </ul>
@@ -605,8 +605,8 @@
                                      </a>
                                   </li>
                                   <li class="" style="border-color:white">
-                                     <a href="https://vietnamtravel.net.vn/vi/tin/92-dich-vu-hoan-hao.html" class="">
-                                     <i class="fa fa-map-marker"></i>  Dịch Vụ Khách sạn
+                                    <a href="#" class="">
+                                        <i class="fa fa-map-marker"></i>  Dịch Vụ Khách sạn
                                      </a>
                                   </li>
                                </ul>
@@ -727,7 +727,7 @@
        <div class="container" id="form-search">
           <div class="row">
              <div class="w100 fl bx-wap-form-search">
-                <form method="GET" action="https://vietnamtravel.net.vn/vi/san-pham/search.html" accept-charset="UTF-8" class="">
+                <form method="GET" action="" accept-charset="UTF-8" class="">
                    <div class="col-md-10 col-xs-12 bx-fr-left">
                       <div class="form-group col-dk-2 col-md-4 col-xs-12">
                          <select class="form-control loaitourchose" name="tour-type" required="">
@@ -835,7 +835,7 @@
           <div class="row">
              <div class="col-md-12 col-xs-12 bx-title-lst-tour text-center">
                 <div class="w100 fl title-tour1">
-                   <h2 style="color: #ffc700; font-size:30px"><img src="https://vietnamtravel.net.vn/assets/desktop/images/icon_mb.png" alt="icon" style="width: 80px;">QUÝ KHÁCH CHỌN ĐỊA ĐIỂM DU LỊCH NÀO</h2>
+                   <h2 style="color: #3E9FFD; font-size:30px">DỰ KIẾN CỦA BẠN</h2>
                 </div>
              </div>
           </div>
@@ -843,24 +843,24 @@
              <div class="row">
                 <div class="col-md-3 col-xs-6 cl-mb-half-0">
                    <div class="bximg-request-dd">
-                      <a href="https://vietnamtravel.net.vn/vi/san-pham/137-du-lich-thai-lan.html">
-                         <img src="{{asset('fontend/imgs/thai-lan.png')}}" alt="Du lịch Thái Lan">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/thai-lan.png')}}" alt="Du lịch Thái Lan">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Thái Lan</div>
                       </a>
                    </div>
                 </div>
                 <div class="col-md-3 col-xs-6 cl-mb-half-1">
                    <div class="bximg-request-dd">
-                      <a href="https://vietnamtravel.net.vn/vi/san-pham/145-du-lich-chau-au.html">
-                         <img src="{{asset('fontend/imgs/chau-au.jpg')}}" alt="Du lịch Châu Âu">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/chau-au.jpg')}}" alt="Du lịch Châu Âu">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Châu Âu</div>
                       </a>
                    </div>
                 </div>
                 <div class="col-md-6 col-xs-12">
                    <div class="bximg-request-dd">
-                      <a href="https://vietnamtravel.net.vn/vi/san-pham/139-du-lich-han-quoc.html">
-                         <img src="{{asset('fontend/imgs/han-quoc.jpg')}}" alt="Du lịch Hàn Quốc">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/han-quoc.jpg')}}" alt="Du lịch Hàn Quốc">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Hàn Quốc</div>
                       </a>
                    </div>
@@ -869,16 +869,16 @@
                 <div class="w100 fl top-30 khkhkocog"></div>
                 <div class="col-md-6 col-xs-12">
                    <div class="bximg-request-dd">
-                      <a href="https://vietnamtravel.net.vn/vi/san-pham/156-du-lich-singapore-malaysia.html">
-                         <img src="{{asset('fontend/imgs/singapo-malaysia.jpg')}}" alt="Du lịch Singapore Malaysia">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/singapo-malaysia.jpg')}}" alt="Du lịch Singapore Malaysia">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Singapore Malaysia</div>
                       </a>
                    </div>
                 </div>
                 <div class="col-md-3 col-xs-6 cl-mb-half-4">
                    <div class="bximg-request-dd">
-                      <a href="https://vietnamtravel.net.vn/vi/san-pham/156-du-lich-singapore-malaysia.html">
-                         <img src="{{asset('fontend/imgs/Bali- Indo.jpg')}}" alt="Du lịch Bali Indonesia">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/Bali- Indo.jpg')}}" alt="Du lịch Bali Indonesia">
                          <div class="capition-dd"><i class="fa fa-map-marker"></i> Du lịch Bali Indonesia</div>
                       </a>
                    </div>
@@ -901,20 +901,20 @@
                    <h2 class="not-icon">Cẩm nang du lịch</h2>
                 </div>
                 <div class="w100 fl item-lst-pos1">
-                   <a href="https://vietnamtravel.net.vn/vi/ct/100-10-diem-den-duoc-nguoi-viet-yeu-thich-nhat-trong-nam-2018.html">
-                   <img src="{{asset('fontend/imgs/thumb_9394578.jpg')}}" alt="10 điểm đến được người Việt yêu thích nhất trong năm 2018">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/thumb_9394578.jpg')}}" alt="10 điểm đến được người Việt yêu thích nhất trong năm 2018">
                    </a>
-                   <a href="https://vietnamtravel.net.vn/vi/ct/100-10-diem-den-duoc-nguoi-viet-yeu-thich-nhat-trong-nam-2018.html" class="ctlist-right">
-                      <h4>10 điểm đến được người Việt yêu thích nhất trong năm 2018</h4>
+                   <a href="#" class="ctlist-right">
+                    <h4>10 điểm đến được người Việt yêu thích nhất trong năm 2018</h4>
                       <p>Theo số liệu thống k&ecirc; số kh&aacute;ch du lịch của tổng cục du lịch,10 điểm đến được người Việt y&ecirc;u th&iacute;ch nhất trong năm...</p>
                    </a>
                 </div>
                 <div class="w100 fl item-lst-pos1">
-                   <a href="https://vietnamtravel.net.vn/vi/ct/96-cam-nang-di-du-lich-da-nang-tat-tan-tat-tu-a-z-vo-cung-re.html">
-                   <img src="{{asset('fontend/imgs/da-nang.jpg')}}" alt="Cẩm nang đi du lịch Đà Nẵng tất tần tật từ A -> Z vô cùng rẻ">
+                    <a href="#" class="">
+                        <img src="{{asset('fontend/imgs/da-nang.jpg')}}" alt="Cẩm nang đi du lịch Đà Nẵng tất tần tật từ A -> Z vô cùng rẻ">
                    </a>
-                   <a href="https://vietnamtravel.net.vn/vi/ct/96-cam-nang-di-du-lich-da-nang-tat-tan-tat-tu-a-z-vo-cung-re.html" class="ctlist-right">
-                      <h4>Cẩm nang đi du lịch Đà Nẵng tất tần tật từ A -> Z vô cùng rẻ</h4>
+                   <a href="#" class="ctlist-right">
+                    <h4>Cẩm nang đi du lịch Đà Nẵng tất tần tật từ A -> Z vô cùng rẻ</h4>
                       <p>Đ&agrave; Nẵng&nbsp;&ndash; Th&agrave;nh phố của những t&acirc;m hồn đẹp v&agrave; thơ mộng với những danh lam thắng cảnh nổi tiếng. Kh&ocirc;ng...</p>
                    </a>
                 </div>
@@ -924,22 +924,22 @@
                    <h2 class="not-icon">Tai sao chọn Vietnamtravel</h2>
                 </div>
                 <div class="w100 fl item-lst-pos2">
-                   <a href="https://vietnamtravel.net.vn/vi/ct/88-top-10-cong-ty-du-lich-hang-dau-hang-dau.html"><img src="{{asset('fontend/imgs/Untitled-1.jpg')}}" alt="Tốp 10 công ty du lịch hàng đầu  hàng đầu"></a>
-                   <a href="https://vietnamtravel.net.vn/vi/ct/88-top-10-cong-ty-du-lich-hang-dau-hang-dau.html" class="ctlist-right">
-                      <h4>Tốp 10 công ty du lịch hàng đầu  hàng đầu</h4>
+                    <a href="#" class=""><img src="{{asset('fontend/imgs/Untitled-1.jpg')}}" alt="Tốp 10 công ty du lịch hàng đầu  hàng đầu"></a>
+                   <a href="#" class="ctlist-right">
+                    <h4>Top 10 công ty du lịch hàng đầu  hàng đầu</h4>
                       <p>Vietnam Travel&nbsp;được vinh danh tại giải thưởng&nbsp;du lịch&nbsp;danhh gi&aacute; World Travel Awards với danh hiệu Nh&agrave;...</p>
                    </a>
                 </div>
                 <div class="w100 fl item-lst-pos2">
-                   <a href="https://vietnamtravel.net.vn/vi/ct/82-hon-18-nam-kinh-nghiem.html"><img src="{{asset('fontend/imgs/18_kinhnghiem_vn.jpg')}}" alt="Hơn 18 năm kinh nghiệm"></a>
-                   <a href="https://vietnamtravel.net.vn/vi/ct/82-hon-18-nam-kinh-nghiem.html" class="ctlist-right">
-                      <h4>Hơn 18 năm kinh nghiệm</h4>
-                      <p>Với 18 năm&nbsp;kinh nghiệm&nbsp;trong lĩnh vực lữ h&agrave;nh, ... mong muốn mang đến cho kh&aacute;ch h&agrave;ng những chuyến...</p>
-                   </a>
+                    <a href="#" class=""><img src="{{asset('fontend/imgs/18_kinhnghiem_vn.jpg')}}" alt="Hơn 18 năm kinh nghiệm"></a>
+                    <a href="#" class="ctlist-right">
+                        <h4>Hơn 18 năm kinh nghiệm</h4>
+                        <p>Với 18 năm&nbsp;kinh nghiệm&nbsp;trong lĩnh vực lữ h&agrave;nh, ... mong muốn mang đến cho kh&aacute;ch h&agrave;ng những chuyến...</p>
+                    </a>
                 </div>
                 <div class="w100 fl item-lst-pos2">
-                   <a href="https://vietnamtravel.net.vn/vi/ct/81-dich-vu-247.html"><img src="{{asset('fontend/imgs/uytin_24_7.jpg')}}" alt="Dịch vụ 24/7"></a>
-                   <a href="https://vietnamtravel.net.vn/vi/ct/81-dich-vu-247.html" class="ctlist-right">
+                    <a href="#" class=""><img src="{{asset('fontend/imgs/uytin_24_7.jpg')}}" alt="Dịch vụ 24/7"></a>
+                    <a href="#" class="ctlist-right">
                       <h4>Dịch vụ 24/7</h4>
                       <p>Đội ngũ c&aacute;n bộ nh&acirc;n vi&ecirc;n nhiệt t&igrave;nh&nbsp;v&agrave; s&aacute;ng tạo. Phục vụ kh&aacute;ch h&agrave;ng tận...</p>
                    </a>

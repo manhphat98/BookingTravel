@@ -5,7 +5,7 @@
     <div class="row">
        <div class="col-md-12 col-xs-12 bx-title-lst-tour text-center">
           <div class="w100 fl title-tour1">
-             <h2 style="color: #ffc700;font-size: 30px;" ><img src="https://vietnamtravel.net.vn/assets/desktop/images/icon_mb.png" alt="icon" style="width: 80px;">Tour Giá Sốc</h2>
+             <h2 style="color: #3E9FFD;font-size: 30px;" >Tour Giá Sốc</h2>
           </div>
        </div>
        <div class="col-md-12 col-xs-12 bx-content-lst-tour">
