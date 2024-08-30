@@ -10,12 +10,20 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{asset('backend/dist/img/user2-160x160.jpg')}} " class="img-circle elevation-2" alt="User Image">
+            @if(Auth::check() && Auth::user()->profile_image)
+                <img src="{{ asset('backend/storage/' . Auth::user()->profile_image) }}" class="img-circle elevation-2" alt="User Image">
+            @else
+                <img src="{{asset('backend/dist/img/user1-128x128.jpg')}}" class="img-circle elevation-2" alt="Default User Image">
+            @endif
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{Auth::user()->name}}</a>
+            @if(Auth::check())
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            @else
+                <a href="{{ route('login') }}" class="d-block">Đăng nhập</a>
+            @endif
         </div>
-      </div>
+    </div>
 
       <!-- SidebarSearch Form -->
       <div class="form-inline">
@@ -34,7 +42,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <li class="nav-item menu-open">
+            <li class="nav-item">
                 <a href="{{ route('home') }}" class="nav-link">
                     <i class="nav-icon fa-solid fa-location-dot"></i>
                 <p>
@@ -46,19 +54,19 @@
                 <li class="nav-item">
                     <a href="./index.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Dashboard v1</p>
+                    <p>Liệt kê Tour</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="./index2.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Dashboard v2</p>
+                    <p>Tạo Tour</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link active">
+                    <a href="{{ route('home') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Dashboard v3</p>
+                    <p>Chỉnh sửa Tour</p>
                     </a>
                 </li>
                 </ul>
@@ -76,7 +84,7 @@
                 <li class="nav-item">
                     <a href="{{ route('categories.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Liệt kê Danh mục</p>
+                    <p>Danh sách Danh mục</p>
                     </a>
                 </li>
 
@@ -88,9 +96,9 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="javascript:void(0)" onclick='window.location.href ="/home"' class="nav-link active">
+                    <a href="javascript:void(0)" onclick='window.location.href ="/admin"' class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Dashboard v3</p>
+                    <p>Chỉnh Sửa Danh mục</p>
                     </a>
                 </li>
                 </ul>
@@ -117,7 +125,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link active">
+                    <a href="{{ route('home') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Dashboard v3</p>
                     </a>

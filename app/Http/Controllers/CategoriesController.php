@@ -15,7 +15,14 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index');
+        $categories = Category::all();
+        return view('admin.categories.index', compact('categories'));
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::select(['id', 'title'])->get();
+        return response()->json($categories);
     }
 
     /**
@@ -39,7 +46,7 @@ class CategoriesController extends Controller
     // Xác thực dữ liệu từ form
     $data = $request->validate([
         'title' => 'required|unique:categories|max:255',
-        'description' => 'required|max:220',
+        'description' => 'required',
         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'status' => 'required',
     ],[

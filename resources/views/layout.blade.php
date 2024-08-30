@@ -162,6 +162,7 @@
        <div class="fb-customerchat"
           page_id="374978409570530" greeting_dialog_display="hide">
        </div>
+       {{-- Layout for Mobile --}}
        <div class="menu_mobile" style="visibility: hidden;">
           <span class="close_menu_mobile"></span>
           <div class="menu_accordion">
@@ -337,6 +338,7 @@
              </ul>
           </div>
        </div>
+       {{-- Layout for Website --}}
        <header id="header-web">
           <div class="header-top w100">
              <div class="container">
@@ -354,12 +356,12 @@
                       </div>
                       <div class="cl-right-lang fr">
                          <div class="bx-lang-rh">
-                            <ul class="swift-lang-r">
-                               <li class="fl">
-                                  <a href="#"><img alt="VietNam" src="https://vietnamtravel.net.vn/assets/desktop/images/vn.png" alt="vi"> <span>Việt Nam</span></a>
+                            <ul class="swift-lang-r" style="display:flex; justify-content:center; list-style:none; gap:20px;">
+                               <li>
+                                  <a href="#"><img alt="VietNam" src=" {{ asset('fontend/imgs/quoc-ki/vietnam.png') }} " alt="vi" style="width: 70px; height: 40px;">  </a>
                                </li>
-                               <li class="fr">
-                                  <a href="#"><img alt="English" src="https://vietnamtravel.net.vn/assets/desktop/images/en.png" alt="en"> <span>English</span></a>
+                               <li>
+                                  <a href="#"><img alt="English" src="{{ asset('fontend/imgs/quoc-ki/english.png') }}" alt="en" style="width: 70px; height: 40px;"> </a>
                                </li>
                             </ul>
                             <div class="hot-line-rh">
@@ -1132,7 +1134,6 @@
              </div>
           </div>
        </div>
-       <a href="tel:0913 073 026" class="call-now"><img alt="du lịch" src="https://vietnamtravel.net.vn/assets/desktop/images/icon-call.png"></a>
        <div class="hotline-footer">
           <span class="hf-icon"></span>
           <div class="hf-text">

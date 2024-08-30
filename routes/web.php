@@ -22,4 +22,4 @@ Route::get('/datatable', function () {
     return view('admin.categories.datatable');
 });
 
-Route::get('/datatable/get-list', [CategoriesController::class, 'index']);
+Route::get('categories/list', [CategoriesController::class, 'getCategories'])->name('categories.list');
