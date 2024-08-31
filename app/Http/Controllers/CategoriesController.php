@@ -19,11 +19,13 @@ class CategoriesController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
-    public function getCategories()
-    {
-        $categories = Category::select(['id', 'title'])->get();
-        return response()->json($categories);
-    }
+    // public function getCategories()
+    // {
+    //     $categories = Category::select(['id', 'title', 'description', 'image', 'status'])->get();
+
+    //     return response()->json(['data' => $categories]);
+    // }
+
 
     /**
      * Show the form for creating a new resource.
@@ -121,6 +123,9 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $categories = Category::find($id);
+
+        $categories->delete();
+        return redirect()->route('categories.index');
     }
 }

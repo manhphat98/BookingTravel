@@ -18,8 +18,4 @@ Auth::routes();
 //Admmin - Categories
 Route::resource('categories', CategoriesController::class);
 
-Route::get('/datatable', function () {
-    return view('admin.categories.datatable');
-});
-
-Route::get('categories/list', [CategoriesController::class, 'getCategories'])->name('categories.list');
+// Route::get('categories/list', [CategoriesController::class, 'getCategories'])->name('categories.list');

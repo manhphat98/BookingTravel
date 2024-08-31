@@ -18,83 +18,73 @@
             </tr>
         </thead>
         <tbody>
-            {{-- Rows will be populated by DataTables --}}
+            @foreach ($categories as $category)
+            <tr>
+                <td>{{ $category->id }}</td>
+                <td>{{ $category->title }}</td>
+                <td>{{ $category->description }}</td>
+                <td><img src="{{ asset('upload/categories/' . $category->image) }}" alt="{{ $category->title }}" width="100"></td>
+                <td>{{ $category->status == 1 ? 'Hiển Thị' : 'Ẩn' }}</td>
+                <td style="text-align: center">
+                    <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary btn-sm">Sửa</a>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteAction('{{ route('categories.destroy', $category->id) }}')">Xóa</button>
+                </td>
+            </tr>
+            @endforeach
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel"><b>Xác nhận xóa</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa danh mục <b>{{ $category->title }}</b> không?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <form id="deleteForm" method="POST" action="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </tbody>
     </table>
 
 </div>
 
 <script>
-    $.ajax({
-        url: '{{ route('categories.list') }}',
-        type: 'GET',
-        success: function(res){
-            if(res){
-                console.log(res); // Xử lý dữ liệu trả về
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: " + error); // In ra lỗi nếu có
+    $(document).ready(function() {
+    $('#categoriesTable').DataTable({
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ mục mỗi trang",
+            "zeroRecords": "Không tìm thấy kết quả nào",
+            "info": "Hiển thị trang _PAGE_ của _PAGES_",
+            "infoEmpty": "Không có dữ liệu",
+            "infoFiltered": "(lọc từ _MAX_ mục)",
+            "search": "Tìm kiếm:",
+            "paginate": {
+                "first": "Đầu",
+                "last": "Cuối",
+                "next": "Tiếp",
+                "previous": "Trước"
+            },
         }
     });
+});
 
-    $(document).ready(function() {
-        $.noConflict();
-        $('#categoriesTable').DataTable({
-            "processing": true,
-            "serverSide": true,
-            // "ajax": "{{ route('categories.list') }}",
-            "ajax" : {
-                url: "{{route('categories.list')}}",
-                method: "POST"
-            }
-            "columns": [
-                { "data": "id" },
-                { "data": "title" },
-                { "data": "description" },
-                {
-                    "data": "image",
-                    "render": function(data, type, row) {
-                        return '<img src="{{ asset('upload/categories') }}/' + data + '" alt="' + row.title + '" width="100">';
-                    }
-                },
-                {
-                    "data": "status",
-                    "render": function(data, type, row) {
-                        return data == 1 ? 'Hiển Thị' : 'Ẩn';
-                    }
-                },
-                {
-                    "data": "id",
-                    "render": function(data, type, row) {
-                        return `
-                            <a href="{{ url('admin/categories/${data}/edit') }}" class="btn btn-primary btn-sm">Sửa</a>
-                            <form action="{{ url('admin/categories/${data}') }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                            </form>
-                        `;
-                    },
-                    "orderable": false
-                }
-            ],
-            "language": {
-                "lengthMenu": "Hiển thị _MENU_ mục mỗi trang",
-                "zeroRecords": "Không tìm thấy kết quả nào",
-                "info": "Hiển thị trang _PAGE_ của _PAGES_",
-                "infoEmpty": "Không có dữ liệu",
-                "infoFiltered": "(lọc từ _MAX_ mục)",
-                "search": "Tìm kiếm:",
-                "paginate": {
-                    "first": "Đầu",
-                    "last": "Cuối",
-                    "next": "Tiếp",
-                    "previous": "Trước"
-                },
-            }
-        });
-    });
+    function setDeleteAction(action) {
+        var form = document.getElementById('deleteForm');
+        form.action = action;
+    }
 </script>
 
 @endsection
