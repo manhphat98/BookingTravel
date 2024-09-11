@@ -18,9 +18,12 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     {{-- DataTables --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.dataTables.css" />
-    <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
 
 </head>
 <!--
@@ -43,7 +46,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a href="{{ route('home') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -69,13 +72,17 @@
         <!-- /.control-sidebar -->
 
         <!-- Main Footer -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-            </div>
+        <footer class="main-footer py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="{{ route('home') }}" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+            </ul>
+            <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
         </footer>
+
     </div>
     <!-- ./wrapper -->
 
@@ -90,10 +97,20 @@
 
     <!-- OPTIONAL SCRIPTS -->
     <script src="{{ asset('backend/plugins/chart.js/Chart.min.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ asset('backend/dist/js/demo.js') }}"></script> --}}
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+
     <script src="{{ asset('backend/dist/js/pages/dashboard3.js') }}"></script>
+    {{-- Ckeditor --}}
+    <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($('.ckeditor').length) {
+                $('.ckeditor').each(function () {
+                    CKEDITOR.replace(this);
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

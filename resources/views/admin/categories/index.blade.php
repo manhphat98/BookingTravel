@@ -3,18 +3,18 @@
 @section('content')
 <div class="container mx-auto mt-5 p-5 bg-white shadow-lg rounded-lg">
     <div class="text-center mb-4">
-        <b><span style="text-transform: uppercase; font-size: 35px">Phân loại Danh mục</span></b>
+        <b><span style="text-transform: uppercase; font-size: 35px">Danh sách Danh mục</span></b>
     </div>
 
     <table id="categoriesTable" class="display table table-striped">
         <thead>
             <tr style="text-align: center">
-                <th style="width: 5%">ID</th>
-                <th style="width: 15%">Tên Danh Mục</th>
-                <th style="width: 45%">Mô Tả</th>
-                <th style="width: 10%">Hình Ảnh</th>
-                <th style="width: 10%">Trạng Thái</th>
-                <th style="width: 25%">Chức năng</th>
+                <th >ID</th>
+                <th >Tên Danh Mục</th>
+                <th >Mô Tả</th>
+                <th >Hình Ảnh</th>
+                <th >Trạng Thái</th>
+                <th >Chức năng</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->title }}</td>
-                <td>{{ $category->description }}</td>
+                <td title="{{ $category->description }}">{{ Str::limit($category->description, 200, '...') }}</td>
                 <td><img src="{{ asset('upload/categories/' . $category->image) }}" alt="{{ $category->title }}" width="100"></td>
                 <td>{{ $category->status == 1 ? 'Hiển Thị' : 'Ẩn' }}</td>
                 <td style="text-align: center">
@@ -62,7 +62,8 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+$.noConflict();
+jQuery(document).ready(function($) {
     $('#categoriesTable').DataTable({
         "language": {
             "lengthMenu": "Hiển thị _MENU_ mục mỗi trang",
@@ -88,3 +89,4 @@
 </script>
 
 @endsection
+

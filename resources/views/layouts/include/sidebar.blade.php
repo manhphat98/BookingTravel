@@ -42,8 +42,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <li class="nav-item">
-                <a href="{{ route('home') }}" class="nav-link">
+               <li class="nav-item {{Request::segment(1)=='tours' ? 'menu-open menu-is-opening' : '' }}">
+                <a href="javascript:void(0)" class="nav-link">
                     <i class="nav-icon fa-solid fa-location-dot"></i>
                 <p>
                     Quản lý Tour
@@ -52,13 +52,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="./index.html" class="nav-link">
+                    <a href="{{ route('tours.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Liệt kê Tour</p>
+                    <p>Danh sách Tour</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./index2.html" class="nav-link">
+                    <a href="{{ route('tours.create') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tạo Tour</p>
                     </a>
@@ -71,7 +71,7 @@
                 </li>
                 </ul>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{Request::segment(1)=='categories' ? 'menu-open menu-is-opening' : '' }}">
                 <a href="javascript:void(0)" class="nav-link">
                 <i class="nav-icon fa-solid fa-layer-group"></i>
                 <p>

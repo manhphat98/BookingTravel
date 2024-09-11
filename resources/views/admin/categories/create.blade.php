@@ -40,6 +40,16 @@
         </div>
 
         <div class="form-group">
+            <label for="parent_id">Phân Mục:</label>
+            <select name="parent_id" class="form-control">
+                <option value="">-- Chọn Danh Mục Cha --</option>
+                @foreach($categories as $parentCategory)
+                    <option value="{{ $parentCategory->id }}">{{ $parentCategory->title }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="description">Mô Tả:</label>
             <textarea class="ckeditor form-control" name="description" id="description" rows="4" required>{{ old('description') }}</textarea>
             @error('description')
@@ -70,13 +80,5 @@
         </div>
     </form>
 </div>
-
-{{-- <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script> --}}
-<script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.ckeditor').ckeditor();
-    });
-</script>
 
 @endsection
