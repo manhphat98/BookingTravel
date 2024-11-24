@@ -13,14 +13,17 @@
             @if(Auth::check() && Auth::user()->profile_image)
                 <img src="{{ asset('backend/storage/' . Auth::user()->profile_image) }}" class="img-circle elevation-2" alt="User Image">
             @else
-                <img src="{{asset('backend/dist/img/null.jpg')}}" class="img-circle elevation-2" alt="AVT">
+                <img src="{{asset('backend/dist/img/null.jpg')}}" class="img-circle elevation-2" alt="User Image">
             @endif
         </div>
         <div class="info">
             @if(Auth::check())
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             @else
-                <span><a href="{{ route('login') }}" class="d-block">Đăng nhập</a>/<a href="{{ route('register') }}" class="d-block">Đăng ký</a></span>
+                <span>
+                    <a href="{{ route('login') }}" class="d-inline me-2">Đăng nhập</a> /
+                    <a href="{{ route('register') }}" class="d-inline ms-2">Đăng ký</a>
+                </span>
             @endif
         </div>
     </div>

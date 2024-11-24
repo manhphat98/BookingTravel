@@ -10,6 +10,10 @@
     <div id="alert-success" class="alert alert-success d-none">
         Thêm tour mới thành công!
     </div>
+    <!-- Hiển thị thông báo chờ -->
+    <div id="loading" class="spinner-border text-primary d-none" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
 
     <form id="tourForm" enctype="multipart/form-data" class="space-y-4">
         @csrf
@@ -25,18 +29,8 @@
                 <select name="category_id" id="category_id" class="form-control">
                     <option value="" {{ isset($category) && $category->category_id == '' ? 'selected' : '' }}>-- Chọn danh mục --</option>
                     @foreach($categories as $key => $val)
-                        <option value="{{ $val->id }}" {{ isset($category) && $category->category_id == $val->id ? 'selected' : '' }}>
-                            @php
-                                $str = '';
-                                for ($i = 0; $i < $val->level; $i++) {
-                                    if ($val->level == 1) {
-                                        $str = '🌐 ';
-                                    }else{
-                                        $str .= '-- ';
-                                    }
-                                }
-                            @endphp
-                            {!! $str . $val->title !!}
+                        <option value="{{ $val->id }}" {{ old('category_id') == $val->id ? 'selected' : '' }}>
+                            {!! str_repeat('-- ', $val->level - 1) !!} {{ $val->title }}
                         </option>
                     @endforeach
                 </select>
@@ -147,6 +141,8 @@
                             $('#alert-success').removeClass('d-none');
                             $('#tourForm')[0].reset();
                             $('#fileLabel').text('Chọn ảnh...');
+                            $('#loading').addClass('d-none');
+                            $('#submitTour').prop('disabled', true).text('Đang xử lý...');
                         }
                     },
                     error: function (xhr) {
@@ -165,7 +161,9 @@
                             $('#descriptionError').text(errors.description ? errors.description[0] : '');
                             $('#imageError').text(errors.image ? errors.image[0] : '');
                         } else {
-                            $('#alert-error').removeClass('d-none').text('Đã có lỗi xảy ra, vui lòng thử lại.');
+                            $('#alert-error').removeClass('d-none').text(
+                                'Lỗi máy chủ: ' + (xhr.responseJSON?.message || 'Vui lòng thử lại sau.')
+                            );
                         }
                     }
                 });

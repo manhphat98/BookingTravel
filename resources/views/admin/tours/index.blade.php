@@ -32,16 +32,16 @@
                 @foreach ($tours as $tour)
                 <tr id="tour-{{ $tour->id }}">
                     <td>{{ $tour->id }}</td>
-                    <td>{{ \Illuminate\Support\Str::limit($tour->title, 50) }}</td>
+                    <td>{{ Str::limit($tour->title, 50) }}</td>
                     <td>{{ $tour->category->title }}</td>
-                    <td>{{ \Illuminate\Support\Str::limit($tour->description, 50) }}</td>
+                    <td>{{ Str::limit($tour->description, 50) }}</td>
                     <td>{{ $tour->vehicle }}</td>
                     <td>{{ number_format($tour->price, 0, ',', '.') }} VND</td>
                     <td>{{ $tour->tour_from }}</td>
                     <td>{{ $tour->tour_to }}</td>
                     <td>{{ $tour->tour_code }}</td>
-                    <td>{{ \Carbon\Carbon::parse($tour->start_date)->format('d-m-Y') }}</td>
-                    <td>{{ \Carbon\Carbon::parse($tour->end_date)->format('d-m-Y') }}</td>
+                    <td>{{ Carbon::parse($tour->start_date)->format('d-m-Y') }}</td>
+                    <td>{{ Carbon::parse($tour->end_date)->format('d-m-Y') }}</td>
                     <td>{{ $tour->quantity }}</td>
                     <td><img src="{{ asset('upload/tours/' . $tour->image) }}" alt="{{ $tour->title }}" width="100"></td>
                     <td style="text-align: center">
@@ -66,7 +66,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Bạn có chắc chắn muốn xóa tour "<b id="tourTitle">{{$tour->title}}</b>" không?
+                    Bạn có chắc chắn muốn xóa tour "<b id="tourTitle"></b>" không?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -102,7 +102,7 @@
                         alert('Xóa tour thành công.');
                     },
                     error: function (xhr) {
-                        alert('Đã xảy ra lỗi, vui lòng thử lại.');
+                        alert(xhr.responseJSON.message || 'Đã xảy ra lỗi, vui lòng thử lại.');
                     }
                 });
             });

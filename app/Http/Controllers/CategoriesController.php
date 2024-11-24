@@ -180,8 +180,8 @@ class CategoriesController extends Controller
 
         try {
             $categories->delete();
-            toastr()->success('Đã xóa Tour');
-            return redirect()->route('tours.index');
+            toastr()->success('Đã xóa Danh mục');
+            return redirect()->route('categories.index');
         } catch (\Exception $e) {
             toastr()->warning('Không thể xóa danh mục này do nó có liên kết với dữ liệu khác');
         }

@@ -42,7 +42,7 @@ class ToursController extends Controller
         // Xác thực dữ liệu
         $data = $request->validate([
             'title' => 'required|unique:tours|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'vehicle' => 'required|string|max:255',
             'price' => 'required',
             'start_date' => 'required|date',
@@ -55,6 +55,7 @@ class ToursController extends Controller
         ],[
             'title.required' => 'Vui lòng không để trống tên Tour',
             'title.unique' => 'Tour đã tồn tại',
+            'description.required' => 'Vui lòng nhập mô tả hành trình Tour',
             'vehicle.required' => 'Vui lòng không để trống phương tiện di chuyển trong Tour',
             'category_id.required' => 'Vui lòng chọn Danh mục cho Tour',
             'start_date.required' => 'Vui lòng không để trống ngày khởi hành Tour',
