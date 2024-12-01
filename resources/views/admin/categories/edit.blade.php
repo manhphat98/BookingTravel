@@ -48,12 +48,15 @@
                     <option {{$val->id == $category->id ? 'select' : ''}} value="{{ $val->id }}">
                         @php
                             $str = '';
-                            for ($i=0; $i < $val->level; $i++) {
-                                echo $str;
-                                $str .= '-- ';
+                            for ($i = 0; $i < $val->level; $i++) {
+                                if ($val->level == 1) {
+                                    $str = '🌐 ';
+                                }else{
+                                    $str .= '-- ';
+                                }
                             }
                         @endphp
-                        {{$val->title}}
+                            {!! $str . $val->title !!}
                     </option>
                 @endforeach
             </select>
@@ -82,21 +85,20 @@
             @error('image')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
-            {{-- Hiện tên file ảnh --}}
-            <script>
-                document.getElementById('validatedCustomFile').addEventListener('change', function(){
-                var fileName = this.files[0].name;
-                var label = document.getElementById('fileLabel');
-                label.textContent = fileName;
-            });
-            </script>
         </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cập Nhật Danh Mục</button>
+            <button type="submit" class="btn btn-primary">Cập Nhật Danh mục</button>
         </div>
 
     </form>
-
+{{-- Hiện tên file ảnh --}}
+<script>
+    document.getElementById('validatedCustomFile').addEventListener('change', function(){
+    var fileName = this.files[0].name;
+    var label = document.getElementById('fileLabel');
+    label.textContent = fileName;
+});
+</script>
 
 @endsection

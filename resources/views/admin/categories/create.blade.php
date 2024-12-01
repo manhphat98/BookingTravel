@@ -32,15 +32,15 @@
                 @foreach($categories as $key => $val)
                     <option value="{{ $val->id }}" {{ old('parent_id', isset($category) ? $category->parent_id : '') == $val->id ? 'selected' : '' }}>
                         @php
-                                $str = '';
-                                for ($i = 0; $i < $val->level; $i++) {
-                                    if ($val->level == 1) {
-                                        $str = '🌐 ';
-                                    }else{
-                                        $str .= '-- ';
-                                    }
+                            $str = '';
+                            for ($i = 0; $i < $val->level; $i++) {
+                                if ($val->level == 1) {
+                                    $str = '🌐 ';
+                                }else{
+                                    $str .= '-- ';
                                 }
-                            @endphp
+                            }
+                        @endphp
                             {!! $str . $val->title !!}
                     </option>
                 @endforeach
@@ -91,10 +91,10 @@
                 processData: false,
                 success: function (response) {
                     if (response.success) {
-                        toastr.success(response.message);
-                        location.reload();
+                        $('#categoryForm')[0].reset();
                     }
                 },
+
                 error: function (xhr) {
                     if (xhr.status === 422) {
                         var errors = xhr.responseJSON.errors;

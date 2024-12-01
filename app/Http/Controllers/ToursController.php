@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tour;
 use App\Models\Category;
+use Carbon\Carbon;
 use Str;
 
 class ToursController extends Controller
@@ -15,10 +16,10 @@ class ToursController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $tours = Tour::all();
-        return view('admin.tours.index', compact('tours'));
-    }
+{
+    $tours = Tour::with('category')->get(); // Sử dụng eager loading
+    return view('admin.tours.index', compact('tours'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +43,7 @@ class ToursController extends Controller
         // Xác thực dữ liệu
         $data = $request->validate([
             'title' => 'required|unique:tours|string|max:255',
-            'description' => 'required|string',
+            'description' => 'required',
             'vehicle' => 'required|string|max:255',
             'price' => 'required',
             'start_date' => 'required|date',
@@ -55,7 +56,7 @@ class ToursController extends Controller
         ],[
             'title.required' => 'Vui lòng không để trống tên Tour',
             'title.unique' => 'Tour đã tồn tại',
-            'description.required' => 'Vui lòng nhập mô tả hành trình Tour',
+            'description.required' => 'Vui lòng mô tả chuyến đi',
             'vehicle.required' => 'Vui lòng không để trống phương tiện di chuyển trong Tour',
             'category_id.required' => 'Vui lòng chọn Danh mục cho Tour',
             'start_date.required' => 'Vui lòng không để trống ngày khởi hành Tour',
@@ -73,6 +74,8 @@ class ToursController extends Controller
             'image.max' => 'Hình ảnh tải lên phải nhỏ hơn 2MB',
         ]);
 
+        $data['price'] = str_replace('.', '', $request->price);
+        $tour->price = (float) $data['price'];
 
         // Xử lý file hình ảnh
         if ($request->hasFile('image')) {
@@ -81,29 +84,29 @@ class ToursController extends Controller
             $image->move(public_path('upload/tours'), $imageName); // Lưu ảnh vào thư mục public/upload/tours
         }
 
-        //Xử lý giá tiền
-        $data['price'] = str_replace('.', '', $request->price);
-
         // Lưu dữ liệu tour vào cơ sở dữ liệu
         $tour = new Tour();
         $tour->title = $request->title;
-        $tour->slug = Str::slug($request['title'], '-');
-        $tour->status = $request['status'];
+        $tour->slug = Str::slug($data['title'], '-');
+        $tour->status = $request->status;
         $tour->description = $request->description;
         $tour->vehicle = $request->vehicle;
-        $tour->price = $data['price'];
+        $tour->price = $request->price;
         $tour->start_date = $request->start_date;
         $tour->end_date = $request->end_date;
-        $tour->category_id = $data['category_id'];
+        $tour->duration = Carbon::parse($request->start_date)->diffInDays(Carbon::parse($request->end_date)) + 1;
+        $tour->category_id = $request->category_id;
         $tour->tour_from = $request->tour_from;
         $tour->tour_to = $request->tour_to;
         $tour->quantity = $request->quantity;
         $tour->image = $imageName; // Lưu tên file ảnh
         $tour->save();
-
-        // Điều hướng về trang danh sách tour với thông báo thành công
         toastr()->success('Tour đã được tạo thành công!');
-        return redirect()->route('tours.create')->with('success', 'Tour đã được thêm thành công!');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tour đã được tạo thành công!',
+        ]);
     }
 
     /**
@@ -116,7 +119,6 @@ class ToursController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -125,9 +127,9 @@ class ToursController extends Controller
      */
     public function edit($id)
     {
-        $tours = Tour::find(($id));
+        $tour = Tour::find(($id));
         $categories = Category::all();
-        return view('admin.tours.edit', compact('tours', 'categories'));
+        return view('admin.tours.edit', compact('tour', 'categories'));
     }
 
     /**
@@ -139,55 +141,59 @@ class ToursController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Xác thực dữ liệu từ form
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category_id' => 'required|integer|exists:categories,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'tour_from' => 'required|string|max:255',
-            'tour_to' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'vehicle' => 'required|string|max:255',
-            'status' => 'required|boolean',
-            'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        // Tìm tour theo ID
         $tour = Tour::findOrFail($id);
 
-        // Cập nhật thông tin tour từ dữ liệu yêu cầu
-        $tour->title = $request->input('title');
-        $tour->category_id = $request->input('category_id');
-        $tour->start_date = $request->input('start_date');
-        $tour->end_date = $request->input('end_date');
-        $tour->tour_from = $request->input('tour_from');
-        $tour->tour_to = $request->input('tour_to');
-        $tour->price = str_replace(',', '', $request->input('price')); // Loại bỏ dấu phẩy trong giá
-        $tour->quantity = $request->input('quantity');
-        $tour->vehicle = $request->input('vehicle');
-        $tour->status = $request->input('status');
-        $tour->description = $request->input('description');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'tour_from' => 'required|string',
+            'tour_to' => 'required|string',
+            'price' => 'required',
+            'quantity' => 'required|integer|min:1',
+            'vehicle' => 'required|string',
+            'status' => 'required|in:0,1',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ],[
+            'title.required' => 'Vui lòng không để trống tên Tour',
+            'description.required' => 'Vui lòng mô tả chuyến đi',
+            'vehicle.required' => 'Vui lòng không để trống phương tiện di chuyển trong Tour',
+            'category_id.required' => 'Vui lòng chọn Danh mục cho Tour',
+            'start_date.required' => 'Vui lòng không để trống ngày khởi hành Tour',
+            'end_date.required' => 'Vui lòng không để trống ngày kết thúc Tour',
+            'end_date.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày khởi hành',
+            'tour_from.required' => 'Vui lòng không để trống địa điểm khởi hành của Tour',
+            'tour_to.required' => 'Vui lòng không để trống địa điểm đến của Tour',
+            'price.required' => 'Vui lòng không để trống giá Tour',
+            'quantity.required' => 'Vui lòng không để trống số lượng khách Tour',
+            'quantity.integer' => 'Số lượng khách Tour phải là số nguyên',
+            'quantity.min' => 'Số lượng khách Tour phải ít nhất là 1',
+            'image.required' => 'Vui lòng không để trống Hình ảnh',
+            'image.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, hoặc gif',
+            'image.max' => 'Hình ảnh tải lên phải nhỏ hơn 2MB',
+        ]);
 
-        // Kiểm tra nếu người dùng đã chọn ảnh mới
+        $data['price'] = str_replace('.', '', $request->price);
+        $tour->price = (float) $data['price'];
+
+        $tour->fill($request->except('image'));
         if ($request->hasFile('image')) {
             // Xóa ảnh cũ nếu có
-            if ($tour->image) {
-                Storage::delete($tour->image);
+            if ($tour->image && file_exists(public_path('upload/tours/' . $tour->image))) {
+                unlink(public_path('upload/tours/' . $tour->image));
             }
 
-            // Lưu ảnh mới
-            $tour->image = $request->file('image')->store('tours');
+            // Upload ảnh mới
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('upload/tours'), $imageName);
+            $tour->image = $imageName;
         }
 
-        // Lưu lại thông tin cập nhật
         $tour->save();
-
-        // Chuyển hướng và gửi thông báo thành công
-        return redirect()->route('tours.index')->with('success', 'Tour đã được cập nhật thành công');
         toastr()->success('Tour đã được cập nhật thành công!');
+        return redirect()->route('tours.index');
     }
 
 
@@ -207,7 +213,7 @@ class ToursController extends Controller
 
         try {
             $tours->delete();
-            toastr()->success('Đã xóa Tour');
+            toastr()->success('Đã xóa Tour thành công');
             return redirect()->route('tours.index');
         } catch (\Exception $e) {
             toastr()->warning('Không thể xóa tour này do nó có liên kết với dữ liệu khác');

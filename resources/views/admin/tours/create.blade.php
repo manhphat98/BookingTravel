@@ -6,21 +6,12 @@
     </div>
     <hr>
 
-    <!-- Hiển thị thông báo thành công -->
-    <div id="alert-success" class="alert alert-success d-none">
-        Thêm tour mới thành công!
-    </div>
-    <!-- Hiển thị thông báo chờ -->
-    <div id="loading" class="spinner-border text-primary d-none" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-
     <form id="tourForm" enctype="multipart/form-data" class="space-y-4">
         @csrf
         <div class="row">
             <div class="form-group col">
                 <label for="title">Tên Tour:</label>
-                <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
+                <input type="text" class="form-control" name="title" id="title">
                 <span class="text-danger" id="titleError"></span>
             </div>
 
@@ -29,10 +20,19 @@
                 <select name="category_id" id="category_id" class="form-control">
                     <option value="" {{ isset($category) && $category->category_id == '' ? 'selected' : '' }}>-- Chọn danh mục --</option>
                     @foreach($categories as $key => $val)
-                        <option value="{{ $val->id }}" {{ old('category_id') == $val->id ? 'selected' : '' }}>
-                            {!! str_repeat('-- ', $val->level - 1) !!} {{ $val->title }}
-                        </option>
-                    @endforeach
+                    <option value="{{ $val->id }}" {{ old('parent_id', isset($category) ? $category->parent_id : '') == $val->id ? 'selected' : '' }}>
+                        @php
+                            $str = '';
+                            for ($i = 0; $i < $val->level; $i++) {
+                                if ($val->level == 1) {
+                                    $str = '🌐 ';
+                                }else{
+                                    $str .= '-- ';
+                                }
+                            }
+                        @endphp
+                            {!! $str . $val->title !!}
+                    </option>                    @endforeach
                 </select>
                 <span class="text-danger" id="categoryError"></span>
             </div>
@@ -42,13 +42,13 @@
         <div class="row">
             <div class="form-group col">
                 <label for="start_date">Ngày Bắt Đầu:</label>
-                <input type="date" class="form-control" name="start_date" id="start_date" value="{{ old('start_date') }}">
+                <input type="date" class="form-control" name="start_date" id="start_date">
                 <span class="text-danger" id="startDateError"></span>
             </div>
 
             <div class="form-group col">
                 <label for="end_date">Ngày Kết Thúc:</label>
-                <input type="date" class="form-control" name="end_date" id="end_date" value="{{ old('end_date') }}">
+                <input type="date" class="form-control" name="end_date" id="end_date">
                 <span class="text-danger" id="endDateError"></span>
             </div>
         </div>
@@ -56,13 +56,13 @@
         <div class="row">
             <div class="form-group col">
                 <label for="tour_from">Điểm Khởi Hành:</label>
-                <input type="text" class="form-control" name="tour_from" id="tour_from" value="{{ old('tour_from') }}">
+                <input type="text" class="form-control" name="tour_from" id="tour_from">
                 <span class="text-danger" id="tourFromError"></span>
             </div>
 
             <div class="form-group col">
                 <label for="tour_to">Điểm Đến:</label>
-                <input type="text" class="form-control" name="tour_to" id="tour_to" value="{{ old('tour_to') }}">
+                <input type="text" class="form-control" name="tour_to" id="tour_to">
                 <span class="text-danger" id="tourToError"></span>
             </div>
         </div>
@@ -70,13 +70,13 @@
         <div class="row">
             <div class="form-group col">
                 <label for="price">Giá Tour:</label>
-                <input type="text" class="form-control" name="price" id="price" value="{{ old('price') }}">
+                <input type="text" class="form-control" name="price" id="price" >
                 <span class="text-danger" id="priceError"></span>
             </div>
 
             <div class="form-group col">
                 <label for="quantity">Số Lượng Chỗ:</label>
-                <input type="number" class="form-control" name="quantity" id="quantity" value="{{ old('quantity') }}">
+                <input type="number" class="form-control" name="quantity" id="quantity">
                 <span class="text-danger" id="quantityError"></span>
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="row">
             <div class="form-group col">
                 <label for="vehicle">Phương Tiện:</label>
-                <input type="text" class="form-control" name="vehicle" id="vehicle" value="{{ old('vehicle') }}">
+                <input type="text" class="form-control" name="vehicle" id="vehicle">
                 <span class="text-danger" id="vehicleError"></span>
             </div>
 
@@ -100,7 +100,7 @@
 
         <div class="form-group">
             <label for="description">Mô Tả:</label>
-            <textarea class="ckeditor form-control" name="description" id="description" rows="4">{{ old('description') }}</textarea>
+            <textarea class="ckeditor form-control" name="description" id="description" rows="5"></textarea>
             <span class="text-danger" id="descriptionError"></span>
         </div>
 
@@ -123,6 +123,11 @@
             $('#submitTour').click(function (e) {
                 e.preventDefault(); // Ngăn việc gửi form mặc định
 
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+
+
                 // Khởi tạo formData để gửi dữ liệu file và các input
                 var formData = new FormData($('#tourForm')[0]);
 
@@ -138,13 +143,11 @@
                     processData: false,
                     success: function (response) {
                         if (response.success) {
-                            $('#alert-success').removeClass('d-none');
+                            toastr.success(response.message);
                             $('#tourForm')[0].reset();
-                            $('#fileLabel').text('Chọn ảnh...');
-                            $('#loading').addClass('d-none');
-                            $('#submitTour').prop('disabled', true).text('Đang xử lý...');
                         }
                     },
+
                     error: function (xhr) {
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
@@ -161,9 +164,7 @@
                             $('#descriptionError').text(errors.description ? errors.description[0] : '');
                             $('#imageError').text(errors.image ? errors.image[0] : '');
                         } else {
-                            $('#alert-error').removeClass('d-none').text(
-                                'Lỗi máy chủ: ' + (xhr.responseJSON?.message || 'Vui lòng thử lại sau.')
-                            );
+                            toastr.error('Đã xảy ra lỗi, vui lòng thử lại.');
                         }
                     }
                 });

@@ -49,7 +49,6 @@ class CategoriesController extends Controller
         // Xác thực dữ liệu từ form (không bắt buộc hình ảnh)
         $data = $request->validate([
             'title' => 'required|unique:categories|max:255',
-            'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required',
             'parent_id' => 'nullable|exists:categories,id',
@@ -57,6 +56,7 @@ class CategoriesController extends Controller
             'title.required' => 'Vui lòng không để trống tên Danh mục',
             'title.unique' => 'Danh mục đã tồn tại',
             'status.required' => 'Vui lòng chọn trạng thái cho Danh mục',
+            'image.mines' => 'Chỉ hỗ trợ định dạng jpeg,png,jpg,gif,svg'
         ]);
 
         // Tạo đối tượng Category và lưu dữ liệu
@@ -81,10 +81,10 @@ class CategoriesController extends Controller
         $category->parent_id = $data['parent_id'] ?? null;
         $category->save();
 
-        // Chuyển hướng lại với thông báo thành công
-        toastr()->success('Danh mục đã được tạo thành công!');
-        // return redirect()->route('categories.create');
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Danh mục đã được tạo thành công!',
+        ]);
 
     }
 
@@ -180,7 +180,7 @@ class CategoriesController extends Controller
 
         try {
             $categories->delete();
-            toastr()->success('Đã xóa Danh mục');
+            toastr()->success('Đã xóa Danh mục thành công!');
             return redirect()->route('categories.index');
         } catch (\Exception $e) {
             toastr()->warning('Không thể xóa danh mục này do nó có liên kết với dữ liệu khác');
