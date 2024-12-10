@@ -19,25 +19,29 @@
                 <label for="category_id">Danh Mục:</label>
                 <select name="category_id" id="category_id" class="form-control">
                     <option value="" {{ isset($category) && $category->category_id == '' ? 'selected' : '' }}>-- Chọn danh mục --</option>
-                    @foreach($categories as $key => $val)
-                    <option value="{{ $val->id }}" {{ old('parent_id', isset($category) ? $category->parent_id : '') == $val->id ? 'selected' : '' }}>
-                        @php
-                            $str = '';
-                            for ($i = 0; $i < $val->level; $i++) {
-                                if ($val->level == 1) {
-                                    $str = '🌐 ';
-                                }else{
-                                    $str .= '-- ';
-                                }
-                            }
-                        @endphp
-                            {!! $str . $val->title !!}
-                    </option>                    @endforeach
+                        @foreach ($categories as $key => $category)
+                            @if ($category->parent_id == 0)
+                                <option class="text-uppercase font-weight-bold" value="{{ $category->id }}" disabled>{{ $category->title }}</option>
+                                @foreach ($categories as $key => $sub_category)
+                                    @if ($sub_category->parent_id == $category->id)
+                                        <option value="{{ $sub_category->id }}">{{ $sub_category->title }}</option>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
                 </select>
                 <span class="text-danger" id="categoryError"></span>
             </div>
 
-        </div>
+            <div class="form-group col">
+                <label for="status">Trạng Thái:</label>
+                <select class="form-control" name="status" id="status">
+                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Hiển Thị</option>
+                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Ẩn</option>
+                </select>
+                <span class="text-danger" id="statusError"></span>
+            </div>
+        </div><hr>
 
         <div class="row">
             <div class="form-group col">
@@ -51,9 +55,7 @@
                 <input type="date" class="form-control" name="end_date" id="end_date">
                 <span class="text-danger" id="endDateError"></span>
             </div>
-        </div>
 
-        <div class="row">
             <div class="form-group col">
                 <label for="tour_from">Điểm Khởi Hành:</label>
                 <input type="text" class="form-control" name="tour_from" id="tour_from">
@@ -65,7 +67,7 @@
                 <input type="text" class="form-control" name="tour_to" id="tour_to">
                 <span class="text-danger" id="tourToError"></span>
             </div>
-        </div>
+        </div><hr>
 
         <div class="row">
             <div class="form-group col">
@@ -79,9 +81,7 @@
                 <input type="number" class="form-control" name="quantity" id="quantity">
                 <span class="text-danger" id="quantityError"></span>
             </div>
-        </div>
 
-        <div class="row">
             <div class="form-group col">
                 <label for="vehicle">Phương Tiện:</label>
                 <input type="text" class="form-control" name="vehicle" id="vehicle">
@@ -89,13 +89,11 @@
             </div>
 
             <div class="form-group col">
-                <label for="status">Trạng Thái:</label>
-                <select class="form-control" name="status" id="status">
-                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Hiển Thị</option>
-                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Ẩn</option>
-                </select>
-                <span class="text-danger" id="statusError"></span>
+                <label for="residence">Lưu trú:</label>
+                <input type="text" class="form-control" name="residence" id="residence">
+                <span class="text-danger" id="residenceError"></span>
             </div>
+
         </div>
 
         <div class="form-group">
@@ -104,7 +102,8 @@
             <span class="text-danger" id="descriptionError"></span>
         </div>
 
-        <div class="form-group">
+
+        <div class="form-group col">
             <label for="image">Ảnh bìa:</label>
             <div class="custom-file">
                 <input name="image" type="file" class="custom-file-input" id="validatedCustomFile">
@@ -127,7 +126,6 @@
                     CKEDITOR.instances[instance].updateElement();
                 }
 
-
                 // Khởi tạo formData để gửi dữ liệu file và các input
                 var formData = new FormData($('#tourForm')[0]);
 
@@ -144,7 +142,7 @@
                     success: function (response) {
                         if (response.success) {
                             toastr.success(response.message);
-                            $('#tourForm')[0].reset();
+                            window.location.href = '{{ route('tours.index') }}'; // Chuyển hướng đến trang index
                         }
                     },
 
@@ -160,6 +158,7 @@
                             $('#priceError').text(errors.price ? errors.price[0] : '');
                             $('#quantityError').text(errors.quantity ? errors.quantity[0] : '');
                             $('#vehicleError').text(errors.vehicle ? errors.vehicle[0] : '');
+                            $('#residenceError').text(errors.vehicle ? errors.vehicle[0] : '');
                             $('#statusError').text(errors.status ? errors.status[0] : '');
                             $('#descriptionError').text(errors.description ? errors.description[0] : '');
                             $('#imageError').text(errors.image ? errors.image[0] : '');
@@ -176,5 +175,6 @@
                 document.getElementById('fileLabel').textContent = fileName;
             });
         });
+
     </script>
 @endsection

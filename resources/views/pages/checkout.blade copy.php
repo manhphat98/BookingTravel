@@ -102,7 +102,7 @@
 
                     <div class="d-flex justify-content-end align-items-center" style="padding-top: 20px">
                         <p style="font-size: 18px; text-align: right"><strong>
-                                Thành tiền: <b class="text-danger" id="totalPrice">{{ number_format($tour->price, 0, ',', '.') }}</b> VNĐ
+                                Thành tiền: <b class="text-danger" name="totalPrice" id="totalPrice">{{ number_format($tour->price, 0, ',', '.') }}</b> VNĐ
                             </strong></p>
                     </div>
                 </div>
@@ -116,7 +116,8 @@
 
                         </div>
                         <div class="col-md-6">
-                            <a href="{{ route('payment.momo', ['tour_id' => $tour->id]) }}" class="btn btn-danger btn-block">Momo</a>
+                            <a href="{{ route('payment.momo', ['tour_id' => $tour->id]) }}" class="btn btn-pink btn-block">Momo</a>
+                            <a href="{{ route('payment.bank', ['tour_id' => $tour->id]) }}" class="btn btn-info btn-block">Ngân hàng</a>
                         </div>
                     </div>
                 </div>
@@ -124,7 +125,7 @@
             </form>
             <form action="{{ route('payment.vnpay') }}" method="POST">
                 @csrf
-                <input type="hidden" id="tour_price" name="tour_vnpay" value="{{$tour->price}}">
+                {{-- <input type="hidden" id="totalPrice" name="totalVnpay"> --}}
                 <button type="submit" class="btn btn-danger btn-block" name="redirect">VNPay</button>
             </form>
         </div>
@@ -142,8 +143,8 @@
 
         // Tính tổng
         var total = (adults * gia_tien) + (children * gia_tien * 0.7);
-        $("#tour_price").val(total);
-        $("#totalPrice").text(total.toLocaleString("vi-VN"));
 
+        // Hiển thị tổng tiền với định dạng
+        $("#totalPrice").text(total.toLocaleString("vi-VN"));
     });
 </script>

@@ -1,15 +1,24 @@
 <div class="container" id="form-search">
     <div class="row">
        <div class="w100 fl bx-wap-form-search">
-          <form method="GET" action="" accept-charset="UTF-8" class="">
+        <form method="GET" action="{{ route('tours.filter') }}" accept-charset="UTF-8" class="">
              <div class="col-md-10 col-xs-12 bx-fr-left">
                 <div class="form-group col-dk-2 col-md-4 col-xs-12">
-                   <select class="form-control loaitourchose" name="tour-type" required="">
-                      <option value="">Loại Tour</option>
-                      <option value="trongnuoc" >Tour nội địa</option>
-                      <option value="ngoainuoc" >Tour Quốc tế</option>
-                   </select>
+                    <select class="form-control loaitourchose" name="tour-type" required="">
+                        <option value="">Danh mục</option>
+                        @foreach ($categories as $key => $category)
+                            @if ($category->parent_id == 0)
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                @foreach ($categories as $key => $sub_category)
+                                    @if ($sub_category->parent_id == $category->id)
+                                        <option value="{{ $sub_category->id }}">-- {{ $sub_category->title }}</option>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </select>
                 </div>
+
                 <div class="form-group col-dk-2 col-md-4 col-xs-12" style="display: none;">
                    <select class="form-control" name="place_departure_category_id">
                       <option value="">Điểm khởi hành</option>

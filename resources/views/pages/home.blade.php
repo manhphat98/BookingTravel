@@ -2,7 +2,7 @@
 
 @section('content')
 @include('pages.include.slide')
-@include('pages.include.fillter')
+
 {{-- Danh sách các Tour --}}
 <div class="container box-list-tour top-30">
     <div class="row">
@@ -17,6 +17,7 @@
             </div>
         @else
             <div class="col-md-12 col-xs-12 bx-content-lst-tour">
+                @include('pages.include.filter')
                 <div class="row">
                     @foreach($tours as $tour)
                         <div class="col-md-4 col-xs-12 lst-tour-item">
@@ -69,4 +70,7 @@
         @endif
     </div>
 </div>
+@include('pages.include.expected')
+@include('pages.include.notes')
+@include('pages.include.footer')
 @endsection

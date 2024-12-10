@@ -97,8 +97,10 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        $tour = Tour::with('category')->findOrFail($id);
+        return view('tours.detail', compact('tour'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

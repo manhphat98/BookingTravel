@@ -1,8 +1,8 @@
-<aside class="main-sidebar sidebar-light-primary shadow-lg"style="height: 100vh;">
+<aside class="main-sidebar sidebar-light-primary shadow-lg" style="height: 100vh; ">
     <!-- Brand Logo -->
     <a href="{{ route('home') }}" class="brand-link d-flex align-items-center">
         <img src="{{ asset('fontend/imgs/logo_BookingTravel_2.png') }}" alt="Admin Logo" class="brand-image elevation-3 rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
-        <span class="brand-text font-weight-light ml-2">Admin<br>BookingTravel</span>
+        <span class="brand-text font-weight-light ml-2"><strong>Admin</strong></span>
     </a>
 
     <!-- Sidebar -->
@@ -43,11 +43,8 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-            {{-- <li class="nav-item {{Request::segment(1)=='tours' ? 'menu-open menu-is-opening' : '' }}"> --}}
             <li class="nav-item menu-open menu-is-opening">
-                <a href="javascript:void(0)" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link" >
                     <i class="nav-icon fa-solid fa-location-dot"></i>
                 <p>
                     Quản lý Tour
@@ -67,15 +64,8 @@
                     <p>Tạo Tour</p>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Chỉnh sửa Tour</p>
-                    </a>
-                </li> --}}
                 </ul>
             </li>
-            {{-- <li class="nav-item {{Request::segment(1)=='categories' ? 'menu-open menu-is-opening' : '' }}"> --}}
             <li class="nav-item menu-open menu-is-opening">
                 <a href="javascript:void(0)" class="nav-link">
                 <i class="nav-icon fa-solid fa-layer-group"></i>
@@ -99,14 +89,13 @@
                     <p>Tạo Danh mục</p>
                     </a>
                 </li>
-
-                {{-- <li class="nav-item">
-                    <a href="javascript:void(0)" onclick='window.location.href ="/admin"' class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Chỉnh Sửa Danh mục</p>
-                    </a>
-                </li> --}}
                 </ul>
+            </li>
+            <li class="nav-item menu-open">
+                <a href="{{ route('booking.index') }}" class="nav-link">
+                <i class="nav-icon fa-solid fa-address-book"></i>
+                <p>Danh sách Đặt Tour</p>
+                </a>
             </li>
             <li class="nav-item menu-open menu-is-opening">
                 <a href="{{ route('home') }}" class="nav-link">
