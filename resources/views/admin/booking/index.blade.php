@@ -56,7 +56,7 @@
                 </td>
                 <td>{{ $booking->created_at->format('d/m/Y H:i') }}</td>
                 <td>
-                    <span><a href="#" class="btn btn-sm btn-primary">Chi tiết</a></span>
+                    <span><a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-sm btn-primary">Chi tiết</a></span>
                     <br>
                     <span><a href="#" class="btn btn-sm btn-danger">Xóa</a></span>
                 </td>

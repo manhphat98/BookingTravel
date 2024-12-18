@@ -15,8 +15,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'DESC')->get();
-        // $categories = Category::with('parent')->get();
+        $categories = Category::all();
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -30,6 +29,7 @@ class CategoriesController extends Controller
         $categories = $this->getCategoriesProduct();
         return view('admin.categories.create', compact('categories'));
     }
+
     public function getCategoriesProduct()
     {
         $categories = Category::orderBy('id', 'DESC')->get();
@@ -46,47 +46,47 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        // Xác thực dữ liệu từ form (không bắt buộc hình ảnh)
+        // Xác thực dữ liệu từ form
         $data = $request->validate([
             'title' => 'required|unique:categories|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required',
-            'parent_id' => 'nullable|exists:categories,id',
-        ],[
+            'parent_id' => 'nullable|exists:categories,id', // Cho phép null nếu không chọn danh mục cha
+        ], [
             'title.required' => 'Vui lòng không để trống tên Danh mục',
             'title.unique' => 'Danh mục đã tồn tại',
             'status.required' => 'Vui lòng chọn trạng thái cho Danh mục',
-            'image.mines' => 'Chỉ hỗ trợ định dạng jpeg,png,jpg,gif,svg'
+            'image.mimes' => 'Chỉ hỗ trợ định dạng jpeg, png, jpg, gif, svg',
+            'parent_id.exists' => 'Danh mục cha không hợp lệ',
         ]);
 
         // Tạo đối tượng Category và lưu dữ liệu
         $category = new Category();
+
         $category->title = $data['title'];
         $category->slug = Str::slug($data['title'], '-');
         $category->description = $data['description'] ?? null;
+        $category->status = $data['status'];
+        $category->parent_id = $data['parent_id'] ?? null; // Đảm bảo giá trị null nếu không chọn
 
         // Xử lý upload file hình ảnh (nếu có)
         if ($request->hasFile('image')) {
-            $get_image = $request->image;
+            $image = $request->file('image');
             $path = 'upload/categories';
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.', $get_name_image));
-            $new_image = $name_image . rand(0, 999) . '.' . $get_image->getClientOriginalExtension();
-            $get_image->move($path, $new_image);
-            $category->image = $new_image;
+            $imageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $newImageName = $imageName . rand(0, 999) . '.' . $image->getClientOriginalExtension();
+            $image->move($path, $newImageName);
+            $category->image = $newImageName;
         }
 
         // Lưu dữ liệu vào database
-        $category->status = $data['status'];
-        $category->parent_id = $data['parent_id'] ?? null;
         $category->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Danh mục đã được tạo thành công!',
-        ]);
-
+        toastr()->success('Danh mục đã được tạo thành công!');
+        return redirect()->route('categories.index');
     }
+
+
 
 
     /**
@@ -133,18 +133,19 @@ class CategoriesController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required',
-            'parent_id' => 'nullable|exists:categories,id',
-        ],[
+            'parent_id' => 'nullable|exists:categories,id', // Đảm bảo parent_id hợp lệ hoặc null
+        ], [
             'title.required' => 'Vui lòng không để trống tên Danh mục',
             'status.required' => 'Vui lòng chọn trạng thái cho Danh mục',
+            'parent_id.exists' => 'Danh mục cha không hợp lệ',
         ]);
 
         // Cập nhật thông tin danh mục
-        $category->title = $request->input('title');
-        $category->slug = Str::slug($request->input('title'), '-');
-        $category->status = $request->input('status');
-        $category->parent_id = $data['parent_id'];
-        $category->description = $request->input('description');
+        $category->title = $data['title'];
+        $category->slug = Str::slug($data['title'], '-');
+        $category->status = $data['status'];
+        $category->parent_id = $data['parent_id'] ?? null; // Gán null nếu không chọn
+        $category->description = $data['description'] ?? null;
 
         // Xử lý hình ảnh
         if ($request->hasFile('image')) {
@@ -163,8 +164,8 @@ class CategoriesController extends Controller
 
         toastr()->success('Danh mục đã được cập nhật thành công!');
         return redirect()->route('categories.index');
-
     }
+
 
     /**
      * Remove the specified resource from storage.

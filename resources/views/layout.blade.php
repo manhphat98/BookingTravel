@@ -39,7 +39,7 @@
     {{-- Mô tả ngắn của bài share --}}
     <meta property="og:description" content="Booking Travel được vinh danh tại giải thưởng du lịch danhh giá World Travel Awards với danh hiệu Nhà điều hành tour trọn gói hàng đầu thế giới, dịch vụ uy tín, khởi hành đúng lịch; dịch vụ hạng sang; giá tốt nhất thị trường; đã đi là thích." />
     {{-- Bài share sẽ có link URL tương ứng --}}
-    <meta property="og:url" content="{{route('home')}}" />
+    <meta property="og:url" content="{{route('admin')}}" />
     {{-- Chỉ định nội dung bài share là kiểu website, bài viết, sản phẩm,... --}}
     <meta property="og:type" content="website" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -398,6 +398,21 @@
                 controlNav: false,
             });
         });
+        $(function() {
+            var offset = 115;
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > offset) {
+                    $('.header-bottom').addClass('fixed');
+                } else {
+                    $('.header-bottom').removeClass('fixed');
+                }
+            });
+            if ($(window).scrollTop() > offset) {
+                $('.header-bottom').addClass('fixed');
+            } else {
+                $('.header-bottom').removeClass('fixed');
+            }
+        });
     </script>
     <style>
         #chose-option-diemden-nd.hidden-select,
@@ -510,10 +525,8 @@
             </li>
         </ul>
     </div>
-    {{-- <a href="#" class="back-to-top" style="display: inline;"><i class="fa-solid fa-square-caret-up"></i></a> --}}
-    <button type="button" class="btn btn-info back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <a href="#" class="back-to-top" style="width: 50px; height: 50px; background-color: black" role="button"><p style="left: 50px">Up</p></a>
+    <a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             jQuery('a[href*="tel:"]').on('click', function() {
@@ -543,20 +556,21 @@
     <!-- End Google Tag Manager -->
 </body>
 <script>
-    $(function() {
-        var offset = 115;
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > offset) {
-                $('.header-bottom').addClass('fixed');
-            } else {
-                $('.header-bottom').removeClass('fixed');
-            }
-        });
-        if ($(window).scrollTop() > offset) {
-            $('.header-bottom').addClass('fixed');
-        } else {
-            $('.header-bottom').removeClass('fixed');
-        }
+    $(document).ready(function(){
+        $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 400);
+                return false;
+            });
     });
 </script>
 <script>

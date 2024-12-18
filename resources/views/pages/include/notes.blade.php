@@ -1,4 +1,4 @@
-<div class="container box-post-home top-15">
+{{-- <div class="container box-post-home top-15">
     <div class="row">
         <div class="col-md-4 col-xs-12 bx-child-ph bx-child-ph1">
             <div class="w100 fl tit-child-larg">
@@ -73,4 +73,4 @@
             </ul>
         </div>
     </div>
-</div>
+</div> --}}

@@ -108,12 +108,8 @@ class ToursController extends Controller
         // Lưu dữ liệu vào cơ sở dữ liệu
         $tour->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Tour đã được tạo thành công!',
-        ]);
-
-        return redirect()->route('tours.index')->with('Tạo thành công', 'Tour đã được thêm mới!');
+        toastr()->success('Tour đã được tạo thành công!');
+        return redirect()->route('tours.index');
     }
 
     /**
@@ -122,9 +118,13 @@ class ToursController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        // Lấy thông tin tour theo slug
+        $tour = Tour::where('slug', $slug)->firstOrFail();
+
+        // Truyền dữ liệu sang view
+        return view('pages.tour.detail', compact('tour'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -156,6 +156,7 @@ class ToursController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required',
             'vehicle' => 'required|string|max:255',
+            'residence' => 'nullable|string|max:255',
             'price' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -192,6 +193,7 @@ class ToursController extends Controller
         $tour->slug = Str::slug($data['title'], '-');
         $tour->description = $data['description'];
         $tour->vehicle = $data['vehicle'];
+        $tour->residence = $data['residence'];
         $tour->start_date = $data['start_date'];
         $tour->end_date = $data['end_date'];
         $tour->duration = Carbon::parse($data['start_date'])->diffInDays(Carbon::parse($data['end_date'])) + 1;
@@ -217,12 +219,8 @@ class ToursController extends Controller
 
         // Lưu thay đổi vào cơ sở dữ liệu
         $tour->save();
-
-        // Thông báo thành công
         toastr()->success('Tour đã được cập nhật thành công!');
-
-        // Chuyển hướng về danh sách tours
-        return redirect()->route('tours.index')->with('success', 'Tour đã được cập nhật thành công!');
+        return redirect()->route('tours.index');
     }
 
 

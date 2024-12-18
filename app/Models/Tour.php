@@ -21,4 +21,9 @@ class Tour extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function residence()
+    {
+        return $this->belongsTo(Residence::class);
+    }
+
 }

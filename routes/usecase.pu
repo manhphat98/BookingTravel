@@ -1,0 +1,72 @@
+@startuml
+left to right direction
+actor User
+actor Admin
+
+rectangle TravelWebsite {
+    User --> (Xem danh sách tour du lịch)
+    User --> (Đặt tour)
+    User --> (Xem danh sách dịch vụ lưu trú)
+    User --> (Xem danh sách phương tiện)
+    User --> (Xem tin tức du lịch)
+    User --> (Xem trang giới thiệu và liên hệ)
+    User --> (Tìm kiếm nhanh trên trang)
+
+    Admin --> (Quản lý danh mục)
+    Admin --> (Quản lý tour du lịch)
+    Admin --> (Quản lý thông tin chi tiết tour)
+    Admin --> (Quản lý lưu trú)
+    Admin --> (Quản lý phương tiện)
+    Admin --> (Quản lý đặt tour)
+    Admin --> (Quản lý thông tin khách đặt)
+    Admin --> (Quản lý tin tức)
+    Admin --> (Thống kê và báo cáo)
+    Admin --> (Quản lý thông tin website)
+    Admin --> (Quản lý giao diện)
+
+    (Tìm kiếm tour) <|-- (Xem danh sách tour du lịch) : include
+    (Lọc tour theo danh mục, địa điểm, thời gian, giá tiền) <|-- (Xem danh sách tour du lịch) : include
+    (Xem chi tiết tour) <|-- (Xem danh sách tour du lịch) : include
+
+    (Điền thông tin cá nhân) <|-- (Đặt tour) : include
+    (Xác nhận đơn đặt tour) <|-- (Đặt tour) : include
+    (Xem thông báo xác nhận) <|-- (Đặt tour) : include
+
+    (Xem chi tiết khách sạn, hình ảnh, giá cả) <|-- (Xem danh sách dịch vụ lưu trú) : include
+
+    (Xem thông tin phương tiện, giá thuê, hình ảnh) <|-- (Xem danh sách phương tiện) : include
+
+    (Đọc bài viết tin tức) <|-- (Xem tin tức du lịch) : include
+
+    (Xem thông tin công ty) <|-- (Xem trang giới thiệu và liên hệ) : include
+    (Xem cách liên hệ) <|-- (Xem trang giới thiệu và liên hệ) : include
+
+    (Thêm, sửa, xóa danh mục chính và danh mục con) <|-- (Quản lý danh mục) : include
+    (Phân cấp danh mục) <|-- (Quản lý danh mục) : include
+
+    (Thêm, sửa, xóa tour) <|-- (Quản lý tour du lịch) : include
+    (Xem chi tiết tour) <|-- (Quản lý tour du lịch) : include
+
+    (Quản lý tên tour, mô tả, phương tiện, nơi ở, giá, ngày bắt đầu/kết thúc, thời gian, khuyến mãi, trạng thái) <|-- (Quản lý thông tin chi tiết tour) : include
+    (Tải lên hình ảnh đại diện cho tour) <|-- (Quản lý thông tin chi tiết tour) : include
+
+    (Thêm, sửa, xóa dịch vụ lưu trú) <|-- (Quản lý lưu trú) : include
+    (Quản lý thông tin lưu trú) <|-- (Quản lý lưu trú) : include
+
+    (Thêm, sửa, xóa phương tiện) <|-- (Quản lý phương tiện) : include
+    (Quản lý thông tin phương tiện) <|-- (Quản lý phương tiện) : include
+
+    (Xem và xử lý đơn đặt tour của khách hàng) <|-- (Quản lý đặt tour) : include
+
+    (Quản lý thông tin khách hàng: họ tên, email, số điện thoại, số lượng người lớn/trẻ em, ghi chú. Xác nhận hoặc hủy đơn đặt tour.) <|-- (Quản lý thông tin khách đặt): include
+
+    (Thêm, sửa, xóa bài viết tin tức) <|-- (Quản lý tin tức) : include
+
+    (Thống kê số lượng đặt tour, doanh thu) <|-- (Thống kê và báo cáo) : include
+    (Báo cáo dịch vụ lưu trú và phương tiện được đặt nhiều nhất) <|-- (Thống kê và báo cáo) : include
+
+    (Cấu hình trang giới thiệu, liên hệ và các thông tin cố định) <|-- (Quản lý thông tin website) : include
+
+    (Quản lý giao diện website) <|-- (Quản lý giao diện) : include
+}
+@enduml

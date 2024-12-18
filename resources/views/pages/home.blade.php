@@ -3,73 +3,81 @@
 @section('content')
 @include('pages.include.slide')
 
-{{-- Danh sách các Tour --}}
-<div class="container box-list-tour top-30">
-    <div class="row">
-        <div class="col-md-12 col-xs-12 bx-title-lst-tour text-center">
-            <div class="w100 fl title-tour1">
-                <h2 style="color: #3E9FFD; font-size: 30px;">Tour Giá Sốc</h2>
-            </div>
-        </div>
-        @if (count($tours) == 0)
-            <div class="alert alert-warning text-center">
-                Hiện chưa có Tour nào đươc cập nhật!
-            </div>
-        @else
-            <div class="col-md-12 col-xs-12 bx-content-lst-tour">
-                @include('pages.include.filter')
-                <div class="row">
-                    @foreach($tours as $tour)
-                        <div class="col-md-4 col-xs-12 lst-tour-item">
-                            <div class="w100 fl bx-wap-pr-item">
-                                <div class="clearfix box-wap-imgpr">
-                                    <a href="{{ route('detail-tour', $tour->slug) }}">
-                                        <img src="{{ asset('upload/tours/'.$tour->image) }}" class="img-default" alt="{{ $tour->title }}" style="margin-bottom: 6px;">
-                                    </a>
-                                </div>
-                                <div class="clear"></div>
-                                <h4>
-                                    <a href="{{ route('detail-tour', $tour->slug) }}">{{ $tour->title }}</a>
-                                </h4>
-                                <div class="clear"></div>
-                                <div class="group-calendar w100 fl">
-                                    <div class="col-md-6 col-xs-7 date-start">
-                                        <span class="lst-icon1"><i class="fa fa-calendar"></i> </span>
-                                        <span>{{ Carbon\Carbon::parse($tour->start_date)->format('d-m-Y') }}</span>
-                                    </div>
-                                    <div class="col-md-6 col-xs-5 date-range">
-                                        <span class="lst-icon1"><i class="fa fa-clock-o"></i></span>
-                                        <span>{{ $tour->duration }} Ngày</span>
-                                    </div>
-                                </div>
-                                <div class="group-localtion w100 fl">
-                                    <div class="col-md-6 col-xs-7 map-maker">
-                                        <span class="lst-icon1"><i class="fa fa-map-marker"></i></span>
-                                        <span>Khởi hành: {{ $tour->tour_from }}</span>
-                                    </div>
-                                    <div class="col-md-6 col-xs-5 numner-sit">
-                                        <span class="lst-icon1"><i class="fa fa-users"></i></span>
-                                        <span>Số chỗ: {{ $tour->quantity }}</span>
-                                    </div>
-                                </div>
-                                @if($tour->promotion)
-                                    <div class="note-attack">
-                                        <i class="fa fa-bell" aria-hidden="true"></i> {{ $tour->promotion }}
-                                    </div>
-                                @endif
+{{-- Bộ lọc --}}
+<div class="container" style="margin-top: 30px;">
+    @include('pages.include.filter')
+</div>
 
-                                <div class="group-book w100 fl">
-                                    <span class="price-sell">{{ number_format($tour->price, 0, ',', '.') }} VNĐ</span>
-                                    <a href="{{ route('detail-tour', $tour->slug) }}" class="link-book btn_view_tour0">Xem chi tiết</a>
-                                </div>
+{{-- Danh sách các Tour --}}
+<div class="container" style="width: 90%; margin: auto; margin-top: 30px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="color: #3E9FFD; font-size: 30px;" class="text-uppercase"><strong>Danh sách Tour</strong></h2>
+    </div>
+
+    @if($tours->isEmpty())
+        <div style="text-align: center; background: #fff3cd; padding: 15px; border: 1px solid #ffeeba; color: #856404;">
+            Không tìm thấy tour nào phù hợp với tiêu chí lọc.
+        </div>
+    @else
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            @foreach($tours as $tour)
+                <div style="width: 32%; position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    {{-- Hình ảnh nền --}}
+                    <a href="{{ route('detail-tour', $tour->slug) }}">
+                        <img src="{{ asset('upload/tours/'.$tour->image) }}"
+                             style="width: 100%; height: 250px; object-fit: cover;"
+                             alt="{{ $tour->title }}">
+                    </a>
+
+                    {{-- Thông tin đè lên hình ảnh --}}
+                    <div style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        background: rgba(0, 0, 0, 0.6);
+                        color: #fff;
+                        padding: 15px;
+                    ">
+                        <h4 style="margin: 0; font-size: 18px; font-weight: bold;">
+                            <a href="{{ route('detail-tour', $tour->slug) }}" style="color: #ffc107; text-decoration: none;">
+                                {{ $tour->title }}
+                            </a>
+                        </h4>
+                        <div class="row" style="font-size: 14px; margin-top: 8px;">
+                            <div class="col-md-6">
+                                <span><i class="fa fa-calendar"></i> {{ Carbon\Carbon::parse($tour->start_date)->format('d-m-Y') }}</span>
+                                <br>
+                                <span><i class="fa fa-clock-o"></i> {{ $tour->duration }} Ngày</span>
+                                <br>
+                            </div>
+                            <div class="col-md-6">
+                                <span><i class="fa fa-map-marker"></i> Khởi hành: {{ $tour->tour_from }}</span>
+                                <br>
+                                <span><i class="fa fa-users"></i> Số chỗ: {{ $tour->quantity }}</span>
                             </div>
                         </div>
-                    @endforeach
+                        @if($tour->promotion)
+                            <div style="margin-top: 5px; color: #ffcc00;">
+                                <i class="fa fa-bell"></i> {{ $tour->promotion }}
+                            </div>
+                        @endif
+                        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 16px; font-weight: bold; color: #ffc107;">
+                                {{ number_format($tour->price, 0, ',', '.') }} VNĐ
+                            </span>
+                            <a href="{{ route('detail-tour', $tour->slug) }}"
+                               style="background: #3E9FFD; color: #fff; padding: 6px 10px; text-decoration: none; border-radius: 4px;">
+                                Xem chi tiết
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        @endif
-    </div>
+            @endforeach
+        </div>
+    @endif
 </div>
+
 @include('pages.include.expected')
 @include('pages.include.notes')
 @include('pages.include.footer')

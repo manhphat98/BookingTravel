@@ -4,27 +4,23 @@
     <div class="text-center mb-4">
         <b><span style="text-transform: uppercase; font-size: 35px">Danh sách Tour</span></b>
     </div>
+    <a href="{{ route('tours.create') }}" class="btn btn-success mb-3"><b style="color: white">Thêm mới</b></a>
 
     @if (count($tours) == 0)
         <div class="alert alert-warning text-center">
             Hiện chưa có Tour nào đươc tạo!
         </div>
     @else
-
         <table id="myTable" class="display table table-striped">
             <thead>
                 <tr style="text-align: center">
                     <th>ID</th>
                     <th>Tên Tour</th>
                     <th>Danh mục</th>
-                    <th>Mô Tả</th>
                     <th>Phương Tiện</th>
                     <th>Giá</th>
-                    <th>Điểm Khởi Hành</th>
-                    <th>Điểm Đến</th>
-                    <th>Mã Tour</th>
-                    <th>Thời Gian Bắt Đầu</th>
-                    <th>Thời Gian Kết Thúc</th>
+                    <th>Hành trình</th>
+                    <th>Thời Gian</th>
                     <th>Số Lượng</th>
                     <th>Ảnh bìa</th>
                     <th>Chức Năng</th>
@@ -36,19 +32,17 @@
                     <td>{{ $tour->id }}</td>
                     <td>{{ Str::limit($tour->title, 50) }}</td>
                     <td>{{ $tour->category->title ?? 'Không có danh mục' }}</td>
-                    <td>{{ Str::limit($tour->description, 50) }}</td>
                     <td>{{ $tour->vehicle }}</td>
                     <td>{{ number_format($tour->price, 0, ',', '.') }} VND</td>
-                    <td>{{ $tour->tour_from }}</td>
-                    <td>{{ $tour->tour_to }}</td>
-                    <td>{{ $tour->tour_code }}</td>
-                    <td>{{ Carbon\Carbon::parse($tour->start_date)->format('d-m-Y') }}</td>
-                    <td>{{ Carbon\Carbon::parse($tour->end_date)->format('d-m-Y') }}</td>
+                    <td>{{ $tour->tour_from }}<hr>{{ $tour->tour_to }}</td>
+                    <td>{{ Carbon\Carbon::parse($tour->start_date)->format('d-m-Y') }}
+                        <hr>
+                        {{ Carbon\Carbon::parse($tour->end_date)->format('d-m-Y') }}</td>
                     <td>{{ $tour->quantity }}</td>
                     <td><img src="{{ asset('upload/tours/' . $tour->image) }}" alt="{{ $tour->title }}" width="100" loading="lazy"></td>
                     <td style="text-align: center">
-                        <a href="{{ route('gallery.edit', [$tour->id]) }}" class="btn btn-info btn-sm">Ảnh</a>
-                        <a href="{{ route('tours.edit', $tour->id) }}" class="btn btn-primary btn-sm">Sửa</a>
+                        {{-- <a href="{{ route('gallery.edit', [$tour->id]) }}" class="btn btn-info btn-sm">Ảnh</a> --}}
+                        <a href="{{ route('tours.edit', $tour->id) }}" class="btn btn-info btn-sm">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteForm('{{ route('tours.destroy', $tour->id) }}')">Xóa</button>
                     </td>
                 </tr>
@@ -81,13 +75,4 @@
             </div>
         </div>
     </div>
-    <script>
-        function setDeleteForm(actionUrl) {
-            document.getElementById('deleteForm').action = actionUrl;
-        }
-
-        $(document).ready(function () {
-            $('#myTable').DataTable();
-        });
-    </script>
 @endsection

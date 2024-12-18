@@ -37,30 +37,30 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
         </div>
 
         <div class="form-group">
-            <label for="parent_id">Phân Mục:</label>
+            <label for="category_id">Danh Mục:</label>
             <select name="parent_id" id="parent_id" class="form-control">
-                <option value="0">-- Chọn Danh Mục Cha --</option>
-                @foreach($categories as $key =>$val)
-                    <option {{$val->id == $category->id ? 'select' : ''}} value="{{ $val->id }}">
-                        @php
-                            $str = '';
-                            for ($i = 0; $i < $val->level; $i++) {
-                                if ($val->level == 1) {
-                                    $str = '🌐 ';
-                                }else{
-                                    $str .= '-- ';
-                                }
-                            }
-                        @endphp
-                            {!! $str . $val->title !!}
-                    </option>
+                <option value="" {{ old('parent_id') == '' ? 'selected' : '' }}>-- Chọn danh mục --</option>
+                @foreach ($categories as $key => $category)
+                    @if ($category->parent_id == 0)
+                        <option class="text-uppercase font-weight-bold" value="{{ $category->id }}" disabled>{{ $category->title }}</option>
+                        @foreach ($categories as $key => $sub_category)
+                            @if ($sub_category->parent_id == $category->id)
+                                <option value="{{ $sub_category->id }}" {{ old('parent_id') == $sub_category->id ? 'selected' : '' }}>
+                                    {{ $sub_category->title }}
+                                </option>
+                            @endif
+                        @endforeach
+                    @endif
                 @endforeach
             </select>
+            @error('category_id')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
+
 
         <div class="form-group">
             <label for="description">Mô Tả:</label>

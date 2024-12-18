@@ -58,11 +58,11 @@
         </div>
 
         <!-- Form đặt tour và phương thức thanh toán -->
-        <div class="row mt-4" style="border: 1px solid; border-radius: 10px; margin: 20px; padding: 20px">
+        <div class="row mt-4" style="border: 1px solid; border-radius: 10px; margin: 30px; padding: 20px">
             <!-- Form thông tin -->
-            <form id="bookingForm" action="{{ route('payment') }}" method="POST">
+            <form id="bookingForm" action="{{ route('checkout') }}" method="POST">
                 @csrf
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <h3 class="text-uppercase mb-3 text-center"><i class="fa-solid fa-user"></i> <b>Thông tin liên hệ</b></h3>
                     <input type="hidden" name="tour_id" value="{{ $tour->id }}">
 
@@ -100,32 +100,30 @@
                         <textarea id="note" name="note" class="form-control"></textarea>
                     </div>
 
+
+                </div>
+
+                <div class="col-md-7">
+                    <h3 class="text-uppercase mb-3 text-center"><i class="fa-solid fa-credit-card"></i> <b>Phương thức thanh toán</b></h3>
+                    <hr>
+                    <div class="row mb-3 text-center">
+                        <div class="col-md-12">
+                            <label><input type="radio" name="payment_method" value="counter" checked><b class="text-uppercase" style="border: 1px solid; border-radius: 4px; margin: 8px; padding: 5px">Thanh toán tại quầy</b></label>
+                            <label><input type="radio" name="payment_method" value="vnpay"><img src="https://stcd02206177151.cloud.edgevnpay.vn/assets/images/logo-icon/logo-primary.svg" alt="VNPay" style="width: 50%; object-fit: cover; margin: 8px;"></label>
+                            <label><input type="radio" name="payment_method" value="momo"><img src="https://homepage.momocdn.net/fileuploads/svg/momo-file-240411162904.svg" alt="Momo" style="width: 50%; object-fit: cover; margin: 8px;"></label>
+                        </div>
+                    </div><hr>
                     <div class="d-flex justify-content-end align-items-center" style="padding-top: 20px">
+                        <input type="hidden" id="tour_price" name="tour_price" value="{{$tour->price}}">
                         <p style="font-size: 18px; text-align: right"><strong>
                                 Thành tiền: <b class="text-danger" id="totalPrice">{{ number_format($tour->price, 0, ',', '.') }}</b> VNĐ
                             </strong></p>
                     </div>
+
                 </div>
-
-                <div class="col-md-6">
-                    <h3 class="text-uppercase mb-3 text-center"><i class="fa-solid fa-credit-card"></i> <b>Phương thức thanh toán</b></h3>
-                    <p><strong>Chọn phương thức thanh toán:</strong></p>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <a href="#" class="btn btn-primary btn-block">Thanh toán tại quầy</a>
-
-                        </div>
-                        <div class="col-md-6">
-                            <a href="{{ route('payment.momo', ['tour_id' => $tour->id]) }}" class="btn btn-danger btn-block">Momo</a>
-                        </div>
-                    </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-info btn-lg" style="background-color: #3E9FFD">Đặt Tour</button>
                 </div>
-
-            </form>
-            <form action="{{ route('payment.vnpay') }}" method="POST">
-                @csrf
-                <input type="hidden" id="tour_price" name="tour_vnpay" value="{{$tour->price}}">
-                <button type="submit" class="btn btn-danger btn-block" name="redirect">VNPay</button>
             </form>
         </div>
     </div>
@@ -142,8 +140,9 @@
 
         // Tính tổng
         var total = (adults * gia_tien) + (children * gia_tien * 0.7);
-        $("#tour_price").val(total);
-        $("#totalPrice").text(total.toLocaleString("vi-VN"));
 
+        // Hiển thị tổng tiền với định dạng
+        $("#totalPrice").text(total.toLocaleString("vi-VN"));
+        $("#tour_price").val(total);
     });
 </script>

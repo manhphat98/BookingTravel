@@ -2,10 +2,9 @@
 
 @section('content')
     <div class="text-center mb-4">
-        <b><span style="text-transform: uppercase; font-size: 35px">Cập nhật thông tin Danh mục</span></b>
+        <b><span style="text-transform: uppercase; font-size: 35px">Chỉnh Sửa Tour</span></b>
     </div>
     <hr>
-
     <!-- Hiển thị thông báo thành công -->
     @if(session('success'))
         <div class="alert alert-success">
@@ -15,7 +14,7 @@
 
     <form action="{{ route('tours.update', $tour->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT') <!-- Đảm bảo sử dụng PUT -->
+        @method('PUT')
         <div class="row">
             <div class="form-group col">
                 <label for="title">Tên Tour:</label>
@@ -28,18 +27,36 @@
             <div class="form-group col">
                 <label for="category_id">Danh Mục:</label>
                 <select name="category_id" id="category_id" class="form-control">
-                    <option value="">-- Chọn danh mục --</option>
-                    @foreach($categories as $key => $val)
-                        <option value="{{ $val->id }}" {{ $tour->category_id == $val->id ? 'selected' : '' }}>
-                            {!! str_repeat('-- ', $val->level - 1) !!} {{ $val->title }}
-                        </option>
+                    <option value="" {{ $tour->category_id == '' ? 'selected' : '' }}>-- Chọn danh mục --</option>
+                    @foreach ($categories as $category)
+                        @if ($category->parent_id == 0)
+                            <option class="text-uppercase font-weight-bold" value="{{ $category->id }}" disabled>{{ $category->title }}</option>
+                            @foreach ($categories as $sub_category)
+                                @if ($sub_category->parent_id == $category->id)
+                                    <option value="{{ $sub_category->id }}" {{ $tour->category_id == $sub_category->id ? 'selected' : '' }}>
+                                        {{ $sub_category->title }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        @endif
                     @endforeach
                 </select>
                 @error('category_id')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-        </div>
+
+            <div class="form-group col">
+                <label for="status">Trạng Thái:</label>
+                <select class="form-control" name="status" id="status">
+                    <option value="1" {{ $tour->status == '1' ? 'selected' : '' }}>Hiển Thị</option>
+                    <option value="0" {{ $tour->status == '0' ? 'selected' : '' }}>Ẩn</option>
+                </select>
+                @error('status')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div><hr>
 
         <div class="row">
             <div class="form-group col">
@@ -57,9 +74,7 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-        </div>
 
-        <div class="row">
             <div class="form-group col">
                 <label for="tour_from">Điểm Khởi Hành:</label>
                 <input type="text" class="form-control" name="tour_from" id="tour_from" value="{{ $tour->tour_from }}">
@@ -75,7 +90,7 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-        </div>
+        </div><hr>
 
         <div class="row">
             <div class="form-group col">
@@ -93,9 +108,7 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-        </div>
 
-        <div class="row">
             <div class="form-group col">
                 <label for="vehicle">Phương Tiện:</label>
                 <input type="text" class="form-control" name="vehicle" id="vehicle" value="{{ $tour->vehicle }}">
@@ -105,12 +118,9 @@
             </div>
 
             <div class="form-group col">
-                <label for="status">Trạng Thái:</label>
-                <select class="form-control" name="status" id="status">
-                    <option value="1" {{ $tour->status == '1' ? 'selected' : '' }}>Hiển Thị</option>
-                    <option value="0" {{ $tour->status == '0' ? 'selected' : '' }}>Ẩn</option>
-                </select>
-                @error('status')
+                <label for="residence">Lưu trú:</label>
+                <input type="text" class="form-control" name="residence" id="residence" value="{{ $tour->residence }}">
+                @error('residence')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
@@ -118,9 +128,7 @@
 
         <div class="form-group">
             <label for="description">Mô Tả:</label>
-            <textarea class="ckeditor form-control" name="description" id="description" rows="5">
-                {{ $tour->description }}
-            </textarea>
+            <textarea class="ckeditor form-control" name="description" id="description" rows="5">{{ $tour->description }}</textarea>
             @error('description')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -146,17 +154,10 @@
             </div>
         </div>
 
-
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Cập Nhật Tour</button>
+            <button type="submit" class="btn btn-primary px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Cập Nhật Tour
+            </button>
         </div>
     </form>
-
-    <script>
-        document.getElementById('validatedCustomFile').addEventListener('change', function(){
-        var fileName = this.files[0].name;
-        var label = document.getElementById('fileLabel');
-        label.textContent = fileName;
-    });
-    </script>
 @endsection

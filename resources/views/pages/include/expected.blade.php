@@ -1,4 +1,4 @@
-<div class="container box-list-tour top-15">
+{{-- <div class="container box-list-tour top-15">
     <div class="row">
         <div class="col-md-12 col-xs-12 bx-title-lst-tour text-center">
             <div class="w100 fl title-tour1">
@@ -60,4 +60,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

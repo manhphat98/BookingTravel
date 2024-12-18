@@ -38,7 +38,7 @@
 
         <!-- Hình ảnh Tour -->
         <div class="col-md-7">
-            <img src="{{ asset('upload/tours/' . $tour->image) }}" alt="{{ $tour->title }}" class="img-fluid rounded shadow" style="max-height: 500px; width: 100%; object-fit: cover;">
+            <img src="{{ asset('upload/tours/' . $tour->image) }}" alt="{{ $tour->title }}" class="img-fluid rounded shadow" style="max-height: 500px; width: 100%; object-fit: cover; border-radius: 8px;">
         </div>
 
         <!-- Thông tin Tour -->
@@ -88,7 +88,7 @@
                         {{-- @endif --}}
                         <tr>
                             <td colspan="2">
-                                <a href="{{ route('checkout', $tour->id) }}" class="btn btn-info btn-lg" style="background-color: #3E9FFD">Đặt Tour Ngay</a>
+                                <a href="{{ route('payment', $tour->id) }}" class="btn btn-info btn-lg" style="background-color: #3E9FFD">Đặt Tour Ngay</a>
                             </td>
                         </tr>
                     </tbody>
@@ -132,5 +132,5 @@
         });
     });
 </script>
-
+@include('pages.include.footer')
 @endsection

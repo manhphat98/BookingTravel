@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
+use PDF;
 
 class BookingController extends Controller
 {
@@ -15,13 +18,56 @@ class BookingController extends Controller
 
         return view('admin.booking.index', compact('bookings'));
     }
-    public function checkout($id)
+
+    public function update(Request $request, $id)
     {
-        $tour = Tour::findOrFail($id); // Lấy thông tin tour theo ID
-        return view('pages.checkout', compact('tour')); // Truyền dữ liệu tour sang view checkout
+        // Tìm kiếm booking bằng ID
+        $booking = Booking::findOrFail($id);
+
+        // Kiểm tra và validate dữ liệu từ request
+        $request->validate([
+            'note' => 'nullable|string|max:1000',
+            'status' => 'required|string|in:Chờ xử lý,Xác nhận,Đã hủy',
+            'payment_status' => 'required|string|in:Chưa thanh toán,Đã thanh toán,Hoàn tiền',
+        ]);
+
+        // Cập nhật thông tin Booking
+        $booking->note = $request->input('note'); // Ghi chú
+        $booking->status = $request->input('status'); // Trạng thái xác nhận
+        $booking->payment_status = $request->input('payment_status'); // Trạng thái thanh toán
+        $booking->updated_at = now(); // Cập nhật thời gian
+
+        // Lưu thông tin cập nhật
+        $booking->save();
+
+        // Trả về thông báo và chuyển hướng lại trang danh sách hoặc chi tiết
+        toastr()->success('Xác nhận Tour thành công!');
+        return redirect()->route('booking.index');
     }
 
-    public function payment(Request $request)
+    public function edit($id)
+    {
+        $booking = Booking::find(($id));
+        return view('admin.booking.edit', compact('booking'));
+    }
+
+    public function show($id)
+    {
+        // Tìm booking với ID
+        $booking = Booking::with('tour')->findOrFail($id);
+
+        // Trả về view xác nhận thông tin hóa đơn
+        return view('pages.booking.confirm', compact('booking'));
+    }
+
+
+    public function payment($id)
+    {
+        $tour = Tour::findOrFail($id); // Lấy thông tin tour theo ID
+        return view('pages.payment', compact('tour')); // Truyền dữ liệu tour sang view payment
+    }
+
+    public function checkout(Request $request)
     {
         // Xác thực dữ liệu
         $validated = $request->validate([
@@ -32,59 +78,61 @@ class BookingController extends Controller
             'adults' => 'required|integer|min:1',
             'children' => 'required|integer|min:0',
             'note' => 'nullable|string|max:1000', // Giới hạn độ dài ghi chú
-            'payment_method' => 'required|string|in:counter,vnpay,momo,bank', // Xác thực phương thức thanh toán
+            'payment_method' => 'required|string|in:counter,vnpay,momo', // Xác thực phương thức thanh toán
         ]);
 
-        // Xác định trạng thái thanh toán dựa trên phương thức thanh toán
-        $paymentStatus = match ($validated['payment_method']) {
-            'counter' => 'Chờ liên lạc', // Thanh toán tại quầy
-            'vnpay', 'momo', 'bank' => 'Đã thanh toán', // Các phương thức thanh toán online
-            default => 'Không xác định', // Trường hợp không hợp lệ
-        };
-
-        // Lấy thông tin tour và tính tổng tiền
         $tour = Tour::findOrFail($validated['tour_id']);
-        $totalPrice = ($validated['adults'] * $tour->price) + ($validated['children'] * $tour->price * 0.7);
+        $totalPrice = $request->input('tour_price');
 
-        // Tạo một bản ghi trong bảng Booking
-        Booking::create([
-            'tour_id' => $validated['tour_id'],
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'adults' => $validated['adults'],
-            'children' => $validated['children'],
-            'note' => $validated['note'] ?? null,
-            'total_price' => $totalPrice,
-            'status' => 'Chờ xử lý', // Đặt mặc định là "pending"
-            'payment_status' => $paymentStatus, // Gán trạng thái thanh toán
-        ]);
-
-        // Gửi thông báo thành công và quay lại trang chủ
-        return redirect()->route('index')->with('Đặt tour thành công!', 'Chúng tôi sẽ liên hệ với bạn sớm.');
+        if ($validated['payment_method'] === 'counter') {
+            // Thanh toán tại quầy
+            $booking = Booking::create([
+                'tour_id' => $validated['tour_id'],
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'adults' => $validated['adults'],
+                'children' => $validated['children'],
+                'note' => $validated['note'],
+                'total_price' => $totalPrice,
+                'status' => 'Chờ xử lý',
+                'payment_status' => 'Chưa thanh toán',
+            ]);
+            Mail::to($booking->email)->send(new InvoiceMail($booking));
+            toastr()->success('Đặt Tour thành công!');
+            return redirect()->route('bookings.show', $validated['tour_id']);
+        } elseif ($validated['payment_method'] === 'vnpay') {
+            // Tạo URL thanh toán VNPay
+            $booking = Booking::create([
+                'tour_id' => $validated['tour_id'],
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'adults' => $validated['adults'],
+                'children' => $validated['children'],
+                'note' => $validated['note'],
+                'total_price' => $totalPrice,
+                'status' => 'Chờ xử lý',
+                'payment_status' => 'Đã thanh toán',
+            ]);
+            $vnpUrl = $this->vnpay($booking->id, $totalPrice);
+            Mail::to($validated['email'])->send(new InvoiceMail($booking));
+            toastr()->success('Đặt Tour thành công!');
+            return redirect($vnpUrl);
+        }
     }
 
-    public function counter($tour_id)
+    private function vnpay($id, $amount)
     {
-        $tour = Tour::findOrFail($tour_id);
-        return view('payment.counter', compact('tour'));
-    }
-
-    public function vnpay(Request $request)
-    {
-        $data=$request->all();
-
-        $tour_vnpay = $request->input('tour_vnpay');
-
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000";
+        $vnp_Returnurl = route('bookings.show', $id);
         $vnp_TmnCode = "TWM7DO6S";//Mã website tại VNPAY
         $vnp_HashSecret = "UTOLCHN4QUIJT21HJ5IWLF6YA98IFF91"; //Chuỗi bí mật
 
-        $vnp_TxnRef = rand(00000,99999); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = "Thanh toán hóa đơn";
-        $vnp_OrderType = 'BookingTravel';
-        $vnp_Amount = $tour_vnpay * 100;
+        $vnp_TxnRef = $id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = "Thanh toán hóa đơn du lịch";
+        $vnp_OrderType = 'booking';
+        $vnp_Amount = $amount * 100;
         $vnp_Locale = "VN";
         $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -142,34 +190,16 @@ class BookingController extends Controller
             } else {
                 echo json_encode($returnData);
             }
-            // vui lòng tham khảo thêm tại code demo
+        // Chuyển hướng người dùng đến VNPay
+        return $vnp_Url;
     }
 
-    public function momo($tour_id)
+    public function export($id)
     {
-        $tour = Tour::findOrFail($tour_id);
-        // Điều hướng hoặc render giao diện thanh toán Momo
-        return view('payment.momo', compact('tour'));
-    }
+        $booking = Booking::with('tour')->findOrFail($id);
+        $pdf = PDF::loadView('pages.exports.invoice', ['booking' => $booking]);
 
-    public function success(Request $request)
-    {
-        // Lưu thông tin đặt tour vào cơ sở dữ liệu
-        Booking::create([
-            'tour_id' => $request->tour_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'adults' => $request->adults,
-            'children' => $request->children,
-            'note' => $request->note,
-            'total_price' => $request->total_price,
-            'status' => 'Chờ xử lý',
-            'payment_status' => 'Đã thanh toán',
-        ]);
-
-        // Trả về thông báo thành công
-        return redirect()->route('tour.details', $request->tour_id)->with('success', 'Thanh toán thành công! Thông tin đặt tour đã được lưu.');
+        return $pdf->download('hoa-don-' . $booking->id . '.pdf');
     }
 
 }

@@ -33,7 +33,7 @@
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{ route('home') }}" class="nav-link">Home</a>
+                        <a href="{{ route('admin') }}" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="" class="nav-link">Contact</a>
@@ -50,7 +50,7 @@
 
         <footer class="main-footer py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="{{ route('home') }}" class="nav-link px-2 text-body-secondary">Trang chủ</a></li>
+                <li class="nav-item"><a href="{{ route('admin') }}" class="nav-link px-2 text-body-secondary">Trang chủ</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Giới thiệu</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Fanpage</a></li>
             </ul>
@@ -63,8 +63,46 @@
     <script src="{{ asset('backend/dist/js/adminlte.js') }}"></script>
     <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-
+    <script src="https://esgoo.net/scripts/jquery.js"></script>
     <script>
+        $(document).ready(function() {
+            //Lấy tỉnh thành
+            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm',function(data_tinh){
+                if(data_tinh.error==0){
+                $.each(data_tinh.data, function (key_tinh,val_tinh) {
+                    $("#province").append('<option value="'+val_tinh.id+'">'+val_tinh.full_name+'</option>');
+                });
+                $("#province").change(function(e){
+                        var idtinh=$(this).val();
+                        //Lấy quận huyện
+                        $.getJSON('https://esgoo.net/api-tinhthanh/2/'+idtinh+'.htm',function(data_quan){
+                            if(data_quan.error==0){
+                            $("#district").html('<option value="0">Quận Huyện</option>');
+                            $("#ward").html('<option value="0">Phường Xã</option>');
+                            $.each(data_quan.data, function (key_quan,val_quan) {
+                                $("#district").append('<option value="'+val_quan.id+'">'+val_quan.full_name+'</option>');
+                            });
+                            //Lấy phường xã
+                            $("#district").change(function(e){
+                                    var idquan=$(this).val();
+                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/'+idquan+'.htm',function(data_phuong){
+                                        if(data_phuong.error==0){
+                                        $("#ward").html('<option value="0">Phường Xã</option>');
+                                        $.each(data_phuong.data, function (key_phuong,val_phuong) {
+                                            $("#ward").append('<option value="'+val_phuong.id+'">'+val_phuong.full_name+'</option>');
+                                        });
+                                        }
+                                    });
+                            });
+
+                            }
+                        });
+                });
+
+                }
+            });
+        });
+
         $(document).ready(function () {
             if ($('.ckeditor').length) {
                 $('.ckeditor').each(function () {
@@ -77,16 +115,30 @@
             }
         });
 
+        function setDeleteForm(actionUrl) {
+            document.getElementById('deleteForm').action = actionUrl;
+        }
+
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+
         document.getElementById('price').addEventListener('input', function (e) {
             let value = this.value.replace(/\D/g, '');
             value = new Intl.NumberFormat('vi-VN').format(value);
             this.value = value;
         });
 
+        document.getElementById('validatedCustomFile').addEventListener('change', function () {
+            var fileName = this.files[0].name;
+            document.getElementById('fileLabel').textContent = fileName;
+        });
+
         function setDeleteAction(action) {
             var form = document.getElementById('deleteForm');
             form.action = action;
         }
+
     </script>
 </body>
 

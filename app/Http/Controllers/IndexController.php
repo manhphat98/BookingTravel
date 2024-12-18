@@ -5,13 +5,47 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Tour;
+use App\Models\Residence;
+use App\Models\Vehicle;
 
 class IndexController extends Controller
 {
-    public function index(){
-        // Lấy danh sách tour từ cơ sở dữ liệu
-        $tours = Tour::where('status', 1)->get(); // Lọc các tour hiển thị (status = 1)
-        return view('pages.home', compact('tours'));
+    public function index(Request $request){
+        $query = Tour::query()->where('status', 1); // Chỉ lấy các tour có status = 1
+
+        // Lọc theo từ khóa
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where('title', 'LIKE', "%$keyword%")
+                  ->orWhere('description', 'LIKE', "%$keyword%");
+        }
+
+        // Lọc theo danh mục
+        if ($request->filled('tour-type')) {
+            $selectedCategoryId = $request->input('tour-type');
+            $categoryIds = Category::where('id', $selectedCategoryId)
+                ->orWhere('parent_id', $selectedCategoryId)
+                ->pluck('id');
+
+            $query->whereIn('category_id', $categoryIds);
+        }
+
+        // Lọc theo giá
+        if ($request->filled('price')) {
+            [$min, $max] = explode('-', $request->input('price'));
+            $query->whereBetween('price', [$min * 1_000_000, $max * 1_000_000]);
+        }
+
+        // Lọc theo khuyến mãi
+        if ($request->filled('promotion')) {
+            $promotion = $request->input('promotion') === 'yes';
+            $query->whereNotNull('promotion', $promotion);
+        }
+
+        $tours = $query->get(); // Lấy danh sách tour sau khi áp dụng tất cả bộ lọc
+        $categories = Category::all(); // Lấy danh mục cho bộ lọc
+
+        return view('pages.home', compact('tours', 'categories'));
     }
 
     public function tour($slug){
@@ -29,77 +63,62 @@ class IndexController extends Controller
                          ->get();
 
             // Trả về view với dữ liệu
-            return view('pages.tour.home', compact('category', 'tours'));
+            return view('pages.category.home', compact('category', 'tours'));
     }
 
-    public function detail_tour($slug)
-    {
-        // Lấy thông tin tour theo slug
-        $tour = Tour::where('slug', $slug)->firstOrFail();
-
-        // Truyền dữ liệu sang view
-        return view('pages.tour.detail', compact('tour'));
+    public function introduce(){
+        return view('pages.include.introduce');
     }
 
-    public function filterTours(Request $request)
+    public function residence(){
+        $residences = Residence::all()->where('status', 1);
+        return view('pages.residence.home', compact('residences'));
+    }
+
+    public function vehicle(){
+        $vehicles = Vehicle::all()->where('status', 1);
+        return view('pages.vehicle.home', compact('vehicles'));
+    }
+
+    public function filter(Request $request)
     {
-        // Bắt đầu query cơ bản
         $query = Tour::query();
 
-        // Lọc theo loại tour (nội địa hoặc quốc tế)
-        if ($request->has('tour-type') && !empty($request->input('tour-type'))) {
-            $selectedCategoryId = $request->input('tour-type');
-
-            // Lọc theo category_id hoặc các danh mục con
-            $query->where(function ($q) use ($selectedCategoryId) {
-                // Lọc các tour thuộc danh mục được chọn hoặc các danh mục con
-                $q->where('category_id', $selectedCategoryId)
-                  ->orWhereHas('category', function ($subQuery) use ($selectedCategoryId) {
-                      $subQuery->where('parent_id', $selectedCategoryId);
-                  });
-            });
-        }
-
-
-        // Lọc theo điểm khởi hành
-        if ($request->has('place_departure_category_id') && !empty($request->input('place_departure_category_id'))) {
-            $query->where('tour_from', $request->input('place_departure_category_id'));
-        }
-
-        // Lọc theo điểm đến
-        if ($request->has('category_id_nd') && !empty($request->input('category_id_nd'))) {
-            $query->where('tour_to', $request->input('category_id_nd'));
-        }
-
-        if ($request->has('category_id_qt') && !empty($request->input('category_id_qt'))) {
-            $query->where('tour_to', $request->input('category_id_qt'));
+        // Lọc theo loại tour
+        if ($request->filled('tour-type')) {
+            $query->where('category_id', $request->input('tour-type'));
         }
 
         // Lọc theo ngày khởi hành
-        if ($request->has('start_date') && !empty($request->input('start_date'))) {
+        if ($request->filled('start_date')) {
             $query->whereDate('start_date', '>=', $request->input('start_date'));
         }
 
+        // Lọc theo ngày về
+        if ($request->filled('end_date')) {
+            $query->whereDate('end_date', '<=', $request->input('end_date'));
+        }
+
         // Lọc theo giảm giá
-        if ($request->has('promotion') && !empty($request->input('promotion'))) {
-            $query->where('promotion', $request->input('promotion') === 'yes' ? 1 : 0);
+        if ($request->filled('promotion')) {
+            $promotion = $request->input('promotion') === 'yes';
+            $query->whereNotNull('promotion', $promotion);
         }
 
         // Lọc theo giá
-        if ($request->has('price') && !empty($request->input('price'))) {
-            [$minPrice, $maxPrice] = explode('-', $request->input('price'));
-            $query->whereBetween('price', [$minPrice * 1000000, $maxPrice * 1000000]);
+        if ($request->filled('price')) {
+            [$min, $max] = explode('-', $request->input('price'));
+            $query->whereBetween('price', [$min * 1_000_000, $max * 1_000_000]);
         }
 
-        // Lọc theo trạng thái (chỉ hiển thị tour đang hoạt động)
-        $query->where('status', 1);
-
-        // Thực hiện truy vấn và lấy dữ liệu
+        // Lấy danh sách tour sau khi lọc
         $tours = $query->get();
 
-        // Trả về view kèm danh sách tour đã lọc
-        return view('pages.tour_list', compact('tours'));
+        // Gửi dữ liệu về view
+        return view('home', compact('tours'));
     }
+
+
 
 
 }

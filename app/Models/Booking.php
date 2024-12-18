@@ -18,7 +18,8 @@ class Booking extends Model
         'children',
         'note',
         'total_price',
-        'status'
+        'status',
+        'payment_status'
     ];
 
     public function tour()

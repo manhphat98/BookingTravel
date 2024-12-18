@@ -4,6 +4,7 @@
 <div class="text-center mb-4">
     <b><span style="text-transform: uppercase; font-size: 35px">Danh sách Danh mục</span></b>
 </div>
+<a href="{{ route('categories.create') }}" class="btn btn-success mb-3"><b style="color: white">Thêm mới</b></a>
 
 @if (count($categories) == 0)
     <div class="alert alert-warning text-center">
@@ -44,9 +45,8 @@
                 </td>
                 <td>{{ $category->status == 1 ? 'Hiển Thị' : 'Ẩn' }}</td>
                 <td style="text-align: center">
-                    <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary btn-sm">Sửa</a>
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
-                            onclick="setDeleteAction('{{ route('categories.destroy', $category->id) }}')">
+                    <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info btn-sm">Sửa</a>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteAction('{{ route('categories.destroy', $category->id) }}')">
                         Xóa
                     </button>
                 </td>
